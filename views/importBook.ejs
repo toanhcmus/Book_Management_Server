@@ -1,0 +1,83 @@
+<%- include('header') -%>
+
+<div class="form-nhap">
+    <div>
+        <label for="inputDataImport">Ngày nhập sách: </label>
+        <input type="date" required id="inputDataImport">
+    </div>
+    <div class="card card-import">
+        <div class="card-header text-bg-primary">
+          Phiếu nhập sách
+        </div>
+        <div class="card-body">
+            <table class="table">
+                <thead class="table-dark">
+                  <tr>
+                    <th scope="col">Tên sách</th>
+                    <th scope="col">Tác giả</th>
+                    <th scope="col">Thể loại</th>
+                    <th scope="col">Số lượng</th>
+                    <th scope="col">Đơn giá</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr id="book1">
+                    <td class="bookname">Tôi thấy hoa vàng trên cỏ xanh</td>
+                    <td class="author">Nguyễn Nhật Ánh</td>
+                    <td class="type"></td>
+                    <td class="count">150</td>
+                    <td class="price">150000</td>
+                  </tr>
+                  
+                </tbody>
+            </table>
+
+            <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
+                Thêm sách
+            </button>
+            
+            <!-- Modal -->
+            <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
+                <div class="modal-dialog">
+                    <div class="modal-content">
+                        <div class="modal-header">
+                            <h1 class="modal-title fs-5" id="exampleModalLabel">Thêm sách</h1>
+                            <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                        </div>
+                        <div class="modal-body">
+                            <div class="mb-3">
+                                <label for="inputBookName" class="form-label">Tên sách</label>
+                                <input type="text" class="form-control" id="inputBookName">
+                            </div>
+                            <div class="mb-3">
+                                <label for="inputAuthor" class="form-label">Tác giả</label>
+                                <input type="text" class="form-control" id="inputAuthor">
+                            </div>
+                            <div class="mb-3">
+                                <label for="inputType" class="form-label">Thể loại</label>
+                                <input type="text" class="form-control" id="inputType">
+                            </div>
+                            <div class="mb-3">
+                                <label for="inputCount" class="form-label">Số lượng</label>
+                                <input type="number" step="1" class="form-control" id="inputCount">
+                            </div>
+                            <div class="mb-3">
+                                <label for="inputPrice" class="form-label">Giá</label>
+                                <input type="number" step="100" class="form-control" id="inputPrice">
+                            </div>
+                        </div>
+                        <div class="modal-footer">
+                            <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button> -->
+                            <button type="button" class="btn btn-primary" id="btnAdd">Thêm sách</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="btn btn-primary">Lưu phiếu</button>
+
+        </div>
+    </div>
+</div>
+
+<%- include('footer') -%>
