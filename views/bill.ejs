@@ -1,0 +1,24 @@
+<%- include('header') -%>
+
+<div class = "container-fluid">
+    <div style = "position: absolute;top: 50%; left: 10%; width: 75%; bottom: 100%; text-align: center; font-size: 18px; background: #6994dd;"> 
+        <form class="row g-3" action="/" method="POST" style="border-style: double;" >  
+            <h4>Nhập thông tin khách hàng</h4>
+            <div class="col-md-6">
+                <label for="name" class="form-label" style = "color: black; font-weight: bold;">Tên khách hàng</label>
+                <input type="text" class="form-control" id="nav-item">
+            </div>
+            <div class="col-md-6">
+                <label for="sdt" class="form-label" style = "color: black; font-weight: bold;">Số điện thoại
+                </label>
+                <input type="tel" class="form-control" id="std">
+            </div>
+            <div class="col-12" style = "margin-bottom: 10px;">
+                <button type="submit" class="btn btn-dark">Kiểm tra</button>
+                <span>&nbsp;</span>
+            </div>
+        </form>
+        </div>
+    </div>
+
+<%- include('footer') -%>

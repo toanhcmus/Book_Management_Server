@@ -1,16 +1,16 @@
 <%- include('header') -%>
 
 <div class="form-nhap">
-    <div>
-        <label for="inputDataImport">Ngày nhập sách: </label>
-        <input type="date" required id="inputDataImport">
-    </div>
     <div class="card card-import">
         <div class="card-header text-bg-primary">
           Phiếu nhập sách
         </div>
         <div class="card-body">
-            <table class="table">
+            <div>
+                <label for="inputDataImport">Ngày nhập sách: </label>
+                <input type="date" required id="inputDataImport">
+            </div>
+            <table class="table table-import">
                 <thead class="table-dark">
                   <tr>
                     <th scope="col">Tên sách</th>
@@ -20,17 +20,12 @@
                     <th scope="col">Đơn giá</th>
                   </tr>
                 </thead>
-                <tbody>
-                  <tr id="book1">
-                    <td class="bookname">Tôi thấy hoa vàng trên cỏ xanh</td>
-                    <td class="author">Nguyễn Nhật Ánh</td>
-                    <td class="type"></td>
-                    <td class="count">150</td>
-                    <td class="price">150000</td>
-                  </tr>
+                <tbody id="bookTableBody">
                   
                 </tbody>
             </table>
+
+            <p id="error-table" style="color: red;"></p>
 
             <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                 Thêm sách
@@ -47,37 +42,167 @@
                         <div class="modal-body">
                             <div class="mb-3">
                                 <label for="inputBookName" class="form-label">Tên sách</label>
-                                <input type="text" class="form-control" id="inputBookName">
+                                <input type="text" class="form-control" id="inputBookName" required>
                             </div>
                             <div class="mb-3">
                                 <label for="inputAuthor" class="form-label">Tác giả</label>
-                                <input type="text" class="form-control" id="inputAuthor">
+                                <input type="text" class="form-control" id="inputAuthor" required>
                             </div>
                             <div class="mb-3">
                                 <label for="inputType" class="form-label">Thể loại</label>
-                                <input type="text" class="form-control" id="inputType">
+                                <input type="text" class="form-control" id="inputType" required>
                             </div>
                             <div class="mb-3">
                                 <label for="inputCount" class="form-label">Số lượng</label>
-                                <input type="number" step="1" class="form-control" id="inputCount">
+                                <input type="number" step="1" class="form-control" id="inputCount" required>
                             </div>
                             <div class="mb-3">
                                 <label for="inputPrice" class="form-label">Giá</label>
-                                <input type="number" step="100" class="form-control" id="inputPrice">
+                                <input type="number" step="100" class="form-control" id="inputPrice" required>
                             </div>
+                            <p id="error-msg" style="color: red;"></p>
                         </div>
                         <div class="modal-footer">
                             <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button> -->
-                            <button type="button" class="btn btn-primary" id="btnAdd">Thêm sách</button>
+                            <button type="button" class="btn btn-primary" id="btnAdd" onclick="addBookRow()">Thêm sách</button>
                         </div>
                     </div>
                 </div>
             </div>
 
-            <button class="btn btn-primary">Lưu phiếu</button>
+            <button class="btn btn-primary" onclick="saveBoooks()">Lưu phiếu</button>
 
         </div>
     </div>
 </div>
+
+<script>
+    function addBookRow() {
+        let allBooks = <%- JSON.stringify(books) %>;
+        console.log(allBooks);
+        // Get input values from the modal
+        let bookName = document.getElementById('inputBookName').value;
+        let author = document.getElementById('inputAuthor').value;
+        let type = document.getElementById('inputType').value;
+        let count = document.getElementById('inputCount').value;
+        let price = document.getElementById('inputPrice').value;
+
+        document.getElementById("error-msg").innerHTML = "";
+
+        if (bookName === '' || author === '' || type === '' || count === '' || price === '') {
+            document.getElementById("error-msg").innerHTML = "Vui lòng điền hết các trường!";
+            return;
+        }
+
+        console.log(bookName);
+        let foundBook = {};
+
+        allBooks.forEach(element => {
+            if (element.TenSach === bookName) {
+                foundBook = element;
+            }
+        });
+
+        console.log(foundBook);
+        if (foundBook) {
+            const count = foundBook.SoLuong;
+            if (count > 300) {
+                document.getElementById("error-msg").innerHTML = `Sách ${bookName} có hơn 300 cuốn trong kho!`;
+                return;
+            }
+        }
+
+        if (parseInt(count) < 150) {
+            document.getElementById("error-msg").innerHTML = `Số lượng nhập ít nhất là 150`;
+            return;
+        }
+
+        // Get the tbody element
+        let tbody = document.getElementById('bookTableBody');
+
+        // Create a new row
+        let newRow = document.createElement('tr');
+
+        // Set the row's id to a unique value (you can use a counter or generate a unique ID)
+        let newRowId = (tbody.children.length + 1);
+        newRow.id = newRowId;
+
+        // Add cells to the new row
+        newRow.innerHTML = `
+        <td class="bookname">${bookName}</td>
+        <td class="author">${author}</td>
+        <td class="type">${type}</td>
+        <td class="count">${count}</td>
+        <td class="price">${price}</td>
+        `;
+
+        // Append the new row to the tbody
+        tbody.appendChild(newRow);
+
+        // Clear the input fields in the modal
+        document.getElementById('inputBookName').value = '';
+        document.getElementById('inputAuthor').value = '';
+        document.getElementById('inputType').value = '';
+        document.getElementById('inputCount').value = '';
+        document.getElementById('inputPrice').value = '';
+    }
+
+    function saveBoooks() {
+        let date = document.getElementById('inputDataImport').value;
+        document.getElementById("error-table").innerHTML = "";
+        if (!date) {
+            document.getElementById("error-table").innerHTML = "Vui lòng chọn ngày nhập!";
+            return;
+        }
+        let tableBody = document.getElementById('bookTableBody');
+        let rows = tableBody.getElementsByTagName('tr');
+        let dataArray = [];
+
+        if (rows.length === 0) {
+            document.getElementById("error-table").innerHTML = "Không có sản phẩm nào trong phiếu nhập!";
+            return;
+        }
+
+
+        // Loop through each row and extract data
+        for (let i = 0; i < rows.length; i++) {
+            let cells = rows[i].getElementsByTagName('td');
+            let rowData = {
+                TenSach: cells[0].innerText,
+                TacGia: cells[1].innerText,
+                TheLoai: cells[2].innerText,
+                SoLuong: parseInt(cells[3].innerText),
+                Gia: parseFloat(cells[4].innerText)
+            };
+            dataArray.push(rowData);
+        }
+
+        // Send the array to the server (you can replace this with your actual server endpoint)
+        // console.log('Data to be sent to the server:', dataArray);
+
+        // You can use AJAX, fetch, or any other method to send the data to the server here
+        // let url = '/book/import';
+        // console.log(url);
+        fetch('/book/import', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json, text/plain, */*',
+            },
+            body: JSON.stringify({"data": dataArray})
+        }).then(response => response.json())
+        .then(data => {
+            console.log('Server response:', data);
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+
+        // Optionally, you can clear the table or perform any other actions after saving the data
+        document.getElementById('inputDataImport').value = '';
+        tableBody.innerHTML = '';
+    }
+
+</script>
 
 <%- include('footer') -%>

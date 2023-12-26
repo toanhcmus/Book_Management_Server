@@ -4,5 +4,6 @@ const { ensureAuthenticatedUser, forwardAuthenticatedUser } = require('../config
 const book = require('../controllers/bookC');
 
 router.get("/import", ensureAuthenticatedUser, book.pageImport);
+router.post("/import", ensureAuthenticatedUser, book.importBook);
 
 module.exports = router;
