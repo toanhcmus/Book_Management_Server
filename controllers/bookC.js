@@ -25,10 +25,10 @@ class bookC {
                 const rs = await Book.selectBook(dataImport[i].TenSach);
                 // console.log(rs);
                 if (rs.length > 0) {
-                    console.log(dataImport[i].SoLuong);
-                    console.log(rs[0].SoLuong);
+                    // console.log(dataImport[i].SoLuong);
+                    // console.log(rs[0].SoLuong);
                     let soluongmoi = parseInt(dataImport[i].SoLuong) + parseInt(rs[0].SoLuong);
-                    console.log(soluongmoi);
+                    // console.log(soluongmoi);
                     await Book.updateBook(dataImport[i].TenSach, soluongmoi)
                 } else {
                     await Book.importBook(dataImport[i]);
