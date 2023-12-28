@@ -17,7 +17,7 @@ class bookC {
     }
 
     async importBook(req, res) {
-        console.log(req.body);
+        // console.log(req.body);
         const dataImport = req.body.data;
 
         for (let i = 0; i < dataImport.length; i++) {
@@ -35,12 +35,12 @@ class bookC {
                 }
             } catch(err) {
                 res.send({
-                    msg: 'fail'
+                    msg: 0
                 });
             }
         }
         res.send({
-            msg: 'success'
+            msg: 1
         });
     }
 }

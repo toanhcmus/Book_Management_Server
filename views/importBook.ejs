@@ -21,7 +21,7 @@
                   </tr>
                 </thead>
                 <tbody id="bookTableBody">
-                  
+                    
                 </tbody>
             </table>
 
@@ -64,7 +64,7 @@
                         </div>
                         <div class="modal-footer">
                             <!-- <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button> -->
-                            <button type="button" class="btn btn-primary" id="btnAdd" onclick="addBookRow()">Thêm sách</button>
+                            <button type="button" class="btn btn-primary" id="btnAdd" onclick="addBookRow()" data-bs-dismiss="modal">Thêm sách</button>
                         </div>
                     </div>
                 </div>
@@ -193,6 +193,13 @@
         }).then(response => response.json())
         .then(data => {
             console.log('Server response:', data);
+            if (data.msg === 1) {
+                alert('Nhập thành công!');
+                window.location.href='/book/import';
+            } else {
+                alert('Nhập không thành công!');
+                window.location.href='/book/import';
+            }
         })
         .catch(error => {
             console.error('Error:', error);
