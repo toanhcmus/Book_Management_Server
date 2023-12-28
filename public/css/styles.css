@@ -1,72 +1,92 @@
-  body {
-    /* font-family: 'Montserrat', sans-serif; */
-    width: 100%;
-  }
+body {
+  /* font-family: 'Montserrat', sans-serif; */
+  width: 100%;
+}
 
-  h1 {
-    font-size: 2rem;
-    line-height: 1.5;
-    font-weight: 900;
-  }
-  
-  h2 {
-    font-size: 2rem;
-    line-height: 1.5;
-    font-weight: 900;
-  }
-  
-  h3 {
-    font-size: 1.5rem;
-    line-height: 1;
-    font-weight: 700;
-  }
-  
-  .container-fluid {
-    padding: 2% 10% 0% 10%;
-  }
+h1 {
+  font-size: 2rem;
+  line-height: 1.5;
+  font-weight: 900;
+}
 
+h2 {
+  font-size: 2rem;
+  line-height: 1.5;
+  font-weight: 900;
+}
 
-  /* navigation bar */
-  .navbar {
-    padding: 0;
-  }
-  
-  .navbar-brand {
-    /* font-family: 'Ubuntu'; */
-    font-size: 2.5rem;
-    font-weight: bold;
-  }
-  
-  .nav-item {
-    padding: 0 18px;
-  }
-  
-  .nav-link {
-    font-size: 1.2rem;
-    /* font-family: 'Montserrat'; */
-  }
+h3 {
+  font-size: 1.5rem;
+  line-height: 1;
+  font-weight: 700;
+}
 
-  /* content */
-  #content {
-    width: 90%;
-    padding: 5% 10%;
-  }
+.container-fluid {
+  padding: 2% 10% 0% 10%;
+}
 
-  .btn-submit {
-    margin-left: 3%;
-    flex: 5%;
-  }
+/* navigation bar */
+.navbar {
+  padding: 0;
+}
 
-  /* importBook */
-  .form-nhap {
-    margin: 50px 20px;
-  }
+.navbar-brand {
+  /* font-family: 'Ubuntu'; */
+  font-size: 2.5rem;
+  font-weight: bold;
+}
 
-  .card-import {
-    margin: 20px;
-  }
+.nav-item {
+  padding: 0 18px;
+}
 
-  .table-import {
-    margin-top: 20px;
-    margin-bottom: 20px;
-  }
+.nav-link {
+  font-size: 1.2rem;
+  /* font-family: 'Montserrat'; */
+}
+
+/* content */
+#content {
+  width: 90%;
+  padding: 5% 10%;
+}
+
+.btn-submit {
+  margin-left: 3%;
+  flex: 5%;
+}
+
+/* importBook */
+.form-nhap {
+  margin: 50px 20px;
+}
+
+.card-import {
+  margin: 20px;
+}
+
+.table-import {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+.center-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-top: 4%;
+  gap: 20px;
+  font-size: large;
+
+}
+
+.btn-success {
+  font-size: large;
+  padding: 10px 20px;
+  color: #212529;
+  background-color: rgb(19, 243, 97);
+}
+.btn-success:hover {
+  color: #ffffff; /* Màu chữ */
+  background-color: #03bc0f; /* Màu nền khi di chuột vào */
+}
