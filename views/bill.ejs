@@ -14,16 +14,9 @@
                     </label>
                     <input type="tel" class="form-control" id="customerPhone" name="customerPhone">
                 </div>
-                <!-- <div class="col-md-6" id="inputCustomerEmail" style="display: none;">
-                    <label for="sdt" class="form-label" style = "color: black; font-weight: bold;">Email
-                    </label>
-                    <input type="email" class="form-control" id="customerEmail" name="customerEmail">
-                </div>
-                <div class="col-md-6" id="inputCustomerAddress" style="display: none;">
-                    <label for="sdt" class="form-label" style = "color: black; font-weight: bold;">Địa chỉ
-                    </label>
-                    <input type="text" class="form-control" id="customerAddress" name="customerAddress">
-                </div> -->
+                <% if (msg === 1) { %>
+                    <p style="color: red;">* Khách hàng đang nợ hơn mức quy định</p>
+                <% } %>
                 <div class="col-12" style = "margin-bottom: 10px;">
                     <button type="submit" class="btn btn-dark">Kiểm tra</button>
                     <span>&nbsp;</span>
@@ -123,11 +116,219 @@
                     </table>
         
                     <p id="error-table" style="color: red;"></p>
-
+                    <br>
+                    <div id="phieuHD-footer">
+                        <div style="display: flex; justify-content: space-between; width: 100%;">
+                            <p>Tổng: <span id="totalAmount"></span> VND</p>
+                            <div>
+                                <button class="btn btn-outline-primary" onclick="payBill()">Thanh toán</button>
+                                <button class="btn btn-outline-primary" onclick="debtBill()">Ghi nợ</button>
+                                <button class="btn btn-outline-primary" onclick="cancel()">Hủy</button>
+                            </div>
+                        </div>
+                    </div>
                 </div>
             </div>
         <% } %>
         
 </div>
+
+<script>
+
+    let totalAmount = 0;
+
+    function getCurrentDate() {
+        let currentDate = new Date();
+
+        let year = currentDate.getFullYear();
+        let month = currentDate.getMonth() + 1; 
+        let day = currentDate.getDate();
+
+        let formattedDate = year + '/' + addLeadingZero(month) + '/' + addLeadingZero(day);
+
+        return formattedDate;
+    }
+
+    // Hàm để thêm số 0 phía trước nếu giá trị là một chữ số
+    function addLeadingZero(number) {
+        return number < 10 ? '0' + number : number;
+    }
+
+    function payBill() {
+
+        let checkCustomer = <%- checkCustomer %>;
+        let customer = null;
+
+        if (checkCustomer === 0) {
+            // Get input values
+            let customerName = document.getElementById('customerName').value;
+            let customerPhone = document.getElementById('customerPhone').value;
+            let customerEmail = document.getElementById('customerEmail').value;
+            let customerAddress = document.getElementById('customerAddress').value;
+            customer = {
+                customerID: 0,
+                customerName: customerName,
+                customerPhone: customerPhone,
+                customerEmail: customerEmail,
+                customerAddress: customerAddress
+            };
+        } 
+        if (checkCustomer === 1) {
+            let customerID = "<%- customer.MaKH %>";
+            customer = {
+                customerID: parseInt(customerID)
+            }
+        }
+
+        let selectedBooks = [];
+        let tableBody = document.getElementById("bookTableBody");
+        let rows = tableBody.getElementsByTagName("tr");
+
+        let data = {
+            total: totalAmount,
+            books: selectedBooks,
+            date: getCurrentDate(),
+            customer: customer
+        }
+
+        for (let i = 0; i < rows.length; i++) {
+            let checkbox = rows[i].querySelector("input[type='checkbox']");
+            let quantityInput = rows[i].querySelector("input[type='number']");
+
+            if (checkbox.checked && quantityInput.value > 0) {
+                let bookId = rows[i].id;
+                let quantity = quantityInput.value;
+
+                selectedBooks.push({
+                    bookId: bookId,
+                    quantity: quantity,
+                });
+            }
+        }
+        fetch('/bill/pay', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json, text/plain, */*',
+            },
+            body: JSON.stringify({"data": data})
+        }).then(response => response.json())
+        .then(data => {
+            console.log('Server response:', data);
+            if (data.msg === "success") {
+                alert('Nhập thành công!');
+                window.location.href='/bill';
+            } else {
+                alert('Nhập không thành công!');
+                window.location.href='/bill';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    function debtBill() {
+        let checkCustomer = <%- checkCustomer %>;
+        let customer = null;
+
+        if (checkCustomer === 0) {
+            // Get input values
+            let customerName = document.getElementById('customerName').value;
+            let customerPhone = document.getElementById('customerPhone').value;
+            let customerEmail = document.getElementById('customerEmail').value;
+            let customerAddress = document.getElementById('customerAddress').value;
+            customer = {
+                customerID: 0,
+                customerName: customerName,
+                customerPhone: customerPhone,
+                customerEmail: customerEmail,
+                customerAddress: customerAddress
+            };
+        } 
+        if (checkCustomer === 1) {
+            let customerID = "<%- customer.MaKH %>";
+            customer = {
+                customerID: parseInt(customerID)
+            }
+        }
+
+        let selectedBooks = [];
+        let tableBody = document.getElementById("bookTableBody");
+        let rows = tableBody.getElementsByTagName("tr");
+
+        let data = {
+            total: totalAmount,
+            books: selectedBooks,
+            date: getCurrentDate(),
+            customer: customer
+        }
+
+        for (let i = 0; i < rows.length; i++) {
+            let checkbox = rows[i].querySelector("input[type='checkbox']");
+            let quantityInput = rows[i].querySelector("input[type='number']");
+
+            if (checkbox.checked && quantityInput.value > 0) {
+                let bookId = rows[i].id;
+                let quantity = quantityInput.value;
+
+                selectedBooks.push({
+                    bookId: bookId,
+                    quantity: quantity,
+                });
+            }
+        }
+        fetch('/bill/debt', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'Accept': 'application/json, text/plain, */*',
+            },
+            body: JSON.stringify({"data": data})
+        }).then(response => response.json())
+        .then(data => {
+            console.log('Server response:', data);
+            if (data.msg === "success") {
+                alert('Nhập thành công!');
+                window.location.href='/bill';
+            } else {
+                alert('Nhập không thành công!');
+                window.location.href='/bill';
+            }
+        })
+        .catch(error => {
+            console.error('Error:', error);
+        });
+    }
+
+    function cancel() {
+        window.location.href = "/bill";
+    }
+
+
+    $(document).ready(function() {
+      // Function to calculate the total amount
+      function calculateTotal() {
+        // Iterate through each checked checkbox
+        $('input[type="checkbox"]:checked').each(function() {
+          const bookRow = $(this).closest('tr');
+          const price = parseFloat(bookRow.find('.price').text());
+          const quantity = parseInt(bookRow.find('.SL input').val());
+          const subtotal = price * quantity;
+  
+          totalAmount += subtotal;
+        });
+  
+        // Display the total amount
+        $('#totalAmount').text(totalAmount);
+      }
+  
+      // Event handler for checkbox and input changes
+      $('input[type="checkbox"], .SL input').on('change', function() {
+        calculateTotal();
+      });
+    });
+</script>
+  
 
 <%- include('footer') -%>
