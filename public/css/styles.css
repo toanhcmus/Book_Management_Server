@@ -90,3 +90,31 @@ h3 {
   color: #ffffff; /* Màu chữ */
   background-color: #03bc0f; /* Màu nền khi di chuột vào */
 }
+
+
+.container-time {
+  display: flex;
+  justify-content: center;
+  /* align-items: center; */
+  /* height: 20vh; */
+  /* gap: 20px; */
+  width: 400px;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.container-time select {
+  margin-right: 40px;
+  font-size: 20px;
+}
+
+.container-time select:last-child {
+  margin-right: 0;
+}
+label {
+  /* width: 10px; Adjust the width of labels as needed */
+  text-align: right;
+  margin-right: 10px;
+  font-size: 21px;
+  margin-top: 10px;
+}

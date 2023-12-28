@@ -20,6 +20,7 @@ class billC {
             let customerName = req.params.name;
             let customerPhone = req.params.phone;
             console.log(customerName, customerPhone);
+            console.log("here")
             const rs = await Customer.selectCustomer(customerName, customerPhone);
             const allBooks = await Book.selectAllBooks();
             const customer = {
