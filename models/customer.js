@@ -22,5 +22,9 @@ module.exports = {
     updateDebt: async(id, debt) => {
         const updateQuery = 'UPDATE public."KhachHang" SET "No" = $1 WHERE "MaKH" = $2';
         await db.none(updateQuery, [debt, id]);
+    },
+    updateDebtCash: async(id, debt) => {
+        const updateQuery = 'UPDATE public."KhachHang" SET "No" = "No" - $1 WHERE "MaKH" = $2';
+        await db.none(updateQuery, [debt, id]);
     }
 }

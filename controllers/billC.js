@@ -32,7 +32,8 @@ class billC {
                 if (rs[0].No > 20000) {
                     res.render("bill", {
                         checkCustomer: 2,
-                        msg: 1
+                        customer: {},
+                        msg: 3
                     });
                 }
                 else {
@@ -66,6 +67,15 @@ class billC {
             const customer = data.customer;
             console.log(data);
             console.log(customerID);
+
+            for (let i = 0; i< books.length; i++) {
+                const foundBook = await Book.selectBookByID(books[i].bookId);
+                if (foundBook.SoLuong - books[i].quantity < 20) {
+                    res.send({
+                        msg: 0
+                    });
+                }
+            }
             
             if (customerID > 0) {
                 const rs = await Bill.addBill(customerID, date, total);
@@ -81,16 +91,20 @@ class billC {
                     }
                 });
                 await Bill.addBill(maxMaKH, date, total);
-                console.log("id = 0");
+                // console.log("id = 0");
+            }
+
+            for (let i = 0; i< books.length; i++) {
+                await Book.updateBookByID(books[i].bookId, books[i].quantity);
             }
 
             res.send({
-                msg: "succes"
+                msg: 1
             });
 
         } catch (error) {
             res.send({
-                msg: "fail"
+                msg: 0
             });
         }
     }
@@ -125,13 +139,17 @@ class billC {
                 // console.log("id = 0");
             }
 
+            for (let i = 0; i< books.length; i++) {
+                await Book.updateBookByID(books[i].bookId, books[i].quantity);
+            }
+
             res.send({
-                msg: "success"
+                msg: 1
             });
             
         } catch (error) {
             res.send({
-                msg: "fail"
+                msg: 0
             });
         }
     }

@@ -43,6 +43,34 @@ class bookC {
             msg: 1
         });
     }
+
+    async pageSearch(req, res) {
+        const allBooks = await Book.selectAllBooks();
+        try {
+            res.render("bookSearch", {
+                session: 1, 
+                userSession: req.session.passport.user,
+                books: allBooks
+            });
+        } catch (error) {
+            res.render("500", {error: error.stack});
+        }
+    }
+
+    async searchBook(req, res) {
+        const search = req.body.inputSearch;
+        const allBooks = await Book.searchBook(search);
+        // console.log(allBooks);
+        try {
+            res.render("bookSearch", {
+                session: 1, 
+                userSession: req.session.passport.user,
+                books: allBooks
+            });
+        } catch (error) {
+            res.render("500", {error: error.stack});
+        }
+    }
 }
 
 module.exports = new bookC;

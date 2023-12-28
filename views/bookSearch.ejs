@@ -1,0 +1,45 @@
+<%- include('header') -%>
+
+<form action="/book/search" method="post" id="form-search" class="row g-6">
+    <div class="col-8">
+        <input type="text" class="form-control" id="inputSearch" name="inputSearch" placeholder="Tên sách / Tác giả / Thể loại">
+    </div>
+    <div class="col-4">
+    <button type="submit" class="btn btn-outline-primary mb-3">Tìm</button>
+    </div>
+</form>
+
+<div class="card card-import">
+    <div class="card-header text-bg-primary">
+      Danh sách
+    </div>
+    <div class="card-body">
+        <table class="table table-import">
+            <thead class="table-dark">
+              <tr>
+                <th scope="col">Tên sách</th>
+                <th scope="col">Tác giả</th>
+                <th scope="col">Thể loại</th>
+                <th scope="col">Lượng tồn</th>
+                <th scope="col">Đơn giá</th>
+              </tr>
+            </thead>
+            <tbody id="bookTableBody">
+                <% books.forEach(book => { %>
+                    <tr>
+                        <td class="bookname"><%= book.TenSach %></td>
+                        <td class="author"><%= book.TacGia %></td>
+                        <td class="type"><%= book.TheLoai %></td>
+                        <td class="count"><%= book.SoLuong %></td>
+                        <td class="price"><%= book.Gia %></td>
+                    </tr>
+                <% }) %>
+            </tbody>
+        </table>
+
+        <% if (books.length === 0) { %>
+            <p style="color: red;">Không tìm thấy dữ liệu nào!</p>
+        <% } %>
+    </div>
+</div>
+<%- include('footer') -%>

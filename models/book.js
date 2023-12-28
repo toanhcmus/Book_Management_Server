@@ -18,8 +18,22 @@ module.exports = {
         console.log(rs);
         return rs;
     },
+    selectBookByID: async(id) => {
+        const rs = await db.any('SELECT * FROM public."Sach" WHERE "MaSach" = $1', [id]);
+        console.log(rs);
+        return rs;
+    },
     updateBook: async(TenSach, SoLuong) => {
         const updateQuery = 'UPDATE public."Sach" SET "SoLuong" = $1 WHERE lower("TenSach") = lower($2)';
         await db.none(updateQuery, [SoLuong, TenSach]);
-    }
+    },
+    updateBookByID: async(id, SoLuong) => {
+        const updateQuery = 'UPDATE public."Sach" SET "SoLuong" = "SoLuong" - $1 WHERE "MaSach" = $2';
+        await db.none(updateQuery, [SoLuong, id]);
+    },
+    searchBook: async(name) => {
+        const rs = await db.any('SELECT * FROM public."Sach" WHERE lower("TenSach" || "TacGia" || "TheLoai") LIKE $1', [`%${name.toLowerCase()}%`]);
+        console.log(rs);
+        return rs;
+    },
 }

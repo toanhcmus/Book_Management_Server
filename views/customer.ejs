@@ -1,0 +1,183 @@
+<%- include('header') %>
+
+<section id="title" class="caption">
+    <h1>QUẢN LÝ KHÁCH HÀNG</h1>
+</section>
+<section id="customer_list">
+    <table class="table table-striped">
+        <thead class="table-dark">
+            <tr>
+              <th scope="col">Mã khách hàng</th>
+              <th scope="col">Tên khách hàng</th>
+              <th scope="col">Số điện thoại</th>
+              <th scope="col">Email</th>
+              <th scope="col">Địa chỉ</th>
+              <th scope="col">Nợ</th>
+              <th scope="col">Thu</th>
+            </tr>
+        </thead>
+        <tbody>
+            <% for( let i = 0; i < allCustomers.length; i++ ) { %>
+                <tr>
+                    <th scope="row"><%= allCustomers[i].MaKH %></th>
+                    <td><%= allCustomers[i].TenKH %></td>
+                    <td><%= allCustomers[i].SDT %></td>
+                    <td><%= allCustomers[i].Email %></td>
+                    <td><%= allCustomers[i].DiaChi %></td>
+                    <td><%= allCustomers[i].No %></td>
+                    <td><button type="button" class="btn btn-outline-primary btnCash"><i class="fa-solid fa-sack-dollar"></i></button>
+                </tr>
+            <% } %>
+        </tbody>
+    </table>
+</section>
+
+<!-- Modal -->
+<div class="modal fade" id="customerModal" tabindex="-1" aria-labelledby="customerModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="customerModalLabel">Lập phiếu thu tiền nợ</h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+            </div>
+            <div class="modal-body">
+                <p><strong>Tên khách hàng:</strong> <span id="modalTen"></span></p>
+                <p><strong>Số điện thoại:</strong> <span id="modalDienThoai"></span></p>
+                <p><strong>Email:</strong> <span id="modalEmail"></span></p>
+                <p><strong>Địa chỉ:</strong> <span id="modalDiaChi"></span></p>
+                <p><strong>Nợ:</strong> <span id="modalNo"></span></p>
+                <div class="mb-3">
+                    <label for="inputCash" class="form-label"><strong>Số tiền thu</strong></label>
+                    <input type="number" class="form-control" id="inputCash" step="1">
+                </div>
+                <p id="error-msg" style="color: red; font-weight: bold;"></p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal" id="lapPhieuThuBtn" disabled>Lập</button>
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">Đóng</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<script>
+    document.addEventListener("DOMContentLoaded", function () {
+        // Lấy danh sách các nút "Thu"
+        var thuButtons = document.querySelectorAll(".btnCash");
+
+        // Gắn sự kiện click cho mỗi nút "Thu"
+        thuButtons.forEach(function (button, index) {
+            button.addEventListener("click", function () {
+                // Lấy thông tin từ hàng tương ứng trong bảng
+                var row = button.closest("tr");
+                var maKH = row.cells[0].innerText;
+                maKH = parseInt(maKH);
+                var tenKhachHang = row.cells[1].innerText;
+                var soDienThoai = row.cells[2].innerText;
+                var email = row.cells[3].innerText;
+                var diaChi = row.cells[4].innerText;
+                var no = row.cells[5].innerText;
+                no = parseInt(no);
+
+                // Hiển thị thông tin trong modal
+                document.getElementById("modalTen").innerText = tenKhachHang;
+                document.getElementById("modalDienThoai").innerText = soDienThoai;
+                document.getElementById("modalEmail").innerText = email;
+                document.getElementById("modalDiaChi").innerText = diaChi;
+                document.getElementById("modalNo").innerText = no;
+
+                // Hiển thị modal
+                var modal = new bootstrap.Modal(document.getElementById("customerModal"));
+                modal.show();
+
+                let soTienThu;
+                let hasError = false;
+
+                document.getElementById("inputCash").addEventListener("input", function () {
+                    // Lấy số tiền từ input
+                    soTienThu = parseInt(this.value);
+                    var errorElement = document.getElementById("error-msg");
+
+                    // Kiểm tra điều kiện và hiển thị thông báo lỗi nếu cần
+                    if (soTienThu > no) {
+                        errorElement.innerText = "Số tiền thu không được vượt quá số tiền nợ!";
+                        hasError = true;
+                        document.getElementById("lapPhieuThuBtn").disabled = true; // Vô hiệu hóa nút "Lập"
+                    } else {
+                        errorElement.innerText = ""; // Xóa thông báo lỗi nếu số tiền hợp lệ
+                        hasError = false;
+                        document.getElementById("lapPhieuThuBtn").disabled = false; // Kích hoạt nút "Lập"
+                    }
+                });
+
+                // Gắn sự kiện click cho nút "Lập" trong modal
+                document.getElementById("lapPhieuThuBtn").addEventListener("click", function () {
+                    // soTienT
+                    // console.log(soTienThu);
+
+                    // if (isNaN(soTienThu) || soTienThu <= 0) {
+                    //     document.getElementById("error-msg").innerText = "Vui lòng nhập số tiền thu!";
+                    //     hasError = true;
+                    //     document.getElementById("lapPhieuThuBtn").disabled = true;
+                    //     return;
+                    // }
+
+                    const data = {
+                        MaKH: maKH,
+                        TenKH: tenKhachHang,
+                        SDT: soDienThoai,
+                        Email: email,
+                        DiaChi: diaChi,
+                        SoTienThu: soTienThu
+                    }
+
+                    // Gửi thông tin lên server (điều này có thể sử dụng AJAX hoặc Fetch API)
+                    // Ví dụ sử dụng Fetch API:
+                    fetch('/customer/debtcash', {
+                        method: 'POST',
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                        body: JSON.stringify(data),
+                    })
+                    .then(response => response.json())
+                    .then(data => {
+                        // Xử lý kết quả từ server (nếu cần)
+                        if (data.msg === 1) {
+                            alert("Thu nợ thành công!");
+                            window.location.href="/customer";
+                        } else {
+                            alert("Thu nợ không thành công!"); 
+                            window.location.href="/customer";
+                        }
+                    })
+                    .catch(error => {
+                        console.error('Error:', error);
+                    });
+
+                    // Đóng modal sau khi xử lý
+                    modal.hide();
+                });
+
+                document.getElementById("customerModal").addEventListener("hide.bs.modal", function () {
+                    // Nếu có lỗi, không đóng modal
+                    document.getElementById("inputCash").value = "";
+                    // Reset thông báo lỗi
+                    document.getElementById("error-msg").innerText = "";
+
+                    // Kích hoạt nút "Lập"
+                    document.getElementById("lapPhieuThuBtn").disabled = false;
+
+                    // Reset biến kiểm tra lỗi
+                    hasError = false;
+                });
+
+            });
+        });
+    });
+
+
+
+</script>
+
+<%- include('footer') %>

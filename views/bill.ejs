@@ -14,13 +14,15 @@
                     </label>
                     <input type="tel" class="form-control" id="customerPhone" name="customerPhone">
                 </div>
-                <% if (msg === 1) { %>
+                <% if (msg === 3) { %>
                     <p style="color: red;">* Khách hàng đang nợ hơn mức quy định</p>
                 <% } %>
+                
                 <div class="col-12" style = "margin-bottom: 10px;">
                     <button type="submit" class="btn btn-dark">Kiểm tra</button>
                     <span>&nbsp;</span>
                 </div>
+                
             </form>
         <% } else {%>
         </div>
@@ -200,8 +202,8 @@
                 let quantity = quantityInput.value;
 
                 selectedBooks.push({
-                    bookId: bookId,
-                    quantity: quantity,
+                    bookId: parseInt(bookId),
+                    quantity: parseInt(quantity),
                 });
             }
         }
@@ -215,11 +217,11 @@
         }).then(response => response.json())
         .then(data => {
             console.log('Server response:', data);
-            if (data.msg === "success") {
-                alert('Nhập thành công!');
+            if (data.msg === 1) {
+                alert('Thanh toán thành công!');
                 window.location.href='/bill';
             } else {
-                alert('Nhập không thành công!');
+                alert('Thanh toán không thành công do vi phạm quy định!');
                 window.location.href='/bill';
             }
         })
@@ -273,8 +275,8 @@
                 let quantity = quantityInput.value;
 
                 selectedBooks.push({
-                    bookId: bookId,
-                    quantity: quantity,
+                    bookId: parseInt(bookId),
+                    quantity: parseInt(quantity),
                 });
             }
         }
@@ -288,11 +290,11 @@
         }).then(response => response.json())
         .then(data => {
             console.log('Server response:', data);
-            if (data.msg === "success") {
-                alert('Nhập thành công!');
+            if (data.msg === 1) {
+                alert('Thanh toán thành công!');
                 window.location.href='/bill';
             } else {
-                alert('Nhập không thành công!');
+                alert('Thanh toán không thành công do vi phạm quy định!');
                 window.location.href='/bill';
             }
         })

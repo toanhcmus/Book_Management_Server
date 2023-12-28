@@ -3,7 +3,10 @@ const Customer = require("../models/customer")
 class customerC {
     async pageCustomer(req, res) {
         try {
-            
+            const allCustomers = await Customer.selectAllCustomers();
+            res.render("customer", {
+                allCustomers: allCustomers
+            });
         } catch (error) {
             res.render("500", {error: error.stack});
         }
@@ -35,6 +38,22 @@ class customerC {
         } catch (error) {
             
         }
+    }
+    async debtcash(req, res) {
+        try {
+            console.log(req.body);
+            const id = req.body.MaKH;
+            const debt = req.body.SoTienThu;
+            await Customer.updateDebtCash(id, debt);
+            
+        } catch (error) {
+            res.send({
+                msg: 0
+            })
+        }
+        res.send({
+            msg: 1
+        })
     }
 }
 
