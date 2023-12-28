@@ -1,7 +1,7 @@
 const Bill = require("../models/bill");
 const Customer = require("../models/customer");
 const Book = require("../models/book");
-const { all } = require("../routes/customer");
+
 
 class billC {
     async pageCreate(req, res) {
@@ -9,7 +9,9 @@ class billC {
             res.render("bill", {
                 session: 1, 
                 userSession: req.session.passport.user,
-                checkCustomer: 2
+                checkCustomer: 2,
+                customer: {},
+                msg: 0
             });
         } catch (error) {
             res.render("500", {error: error.stack});
@@ -28,12 +30,22 @@ class billC {
                 phone: customerPhone
             }
             if (rs.length > 0){
-                // console.log(1);
-                res.render("bill", {
-                    checkCustomer: 1,
-                    customer: rs[0],
-                    allBooks: allBooks
-                });
+                if (rs[0].No > 20000) {
+                    res.render("bill", {
+                        checkCustomer: 2,
+                        customer: {},
+                        msg: 3
+                    });
+                }
+                else {
+                    // console.log(1);
+                    res.render("bill", {
+                        checkCustomer: 1,
+                        customer: rs[0],
+                        allBooks: allBooks
+                    });
+                }
+                
             } else {
                 // console.log(0);
                 res.render("bill", {
@@ -44,6 +56,102 @@ class billC {
             }
         } catch (error) {
             res.render("500", {error: error.stack});
+        }
+    }
+    async pay(req, res) {
+        try {
+            const data = req.body.data;
+            const customerID = data.customer.customerID;
+            const books = data.books;
+            const date = data.date;
+            const total = data.total;
+            const customer = data.customer;
+            console.log(data);
+            console.log(customerID);
+
+            for (let i = 0; i< books.length; i++) {
+                const foundBook = await Book.selectBookByID(books[i].bookId);
+                if (foundBook.SoLuong - books[i].quantity < 20) {
+                    res.send({
+                        msg: 0
+                    });
+                }
+            }
+            
+            if (customerID > 0) {
+                const rs = await Bill.addBill(customerID, date, total);
+                // console.log("id != 0");
+            } else {
+                customer = {...customer, no: 0}
+                await Customer.insertCustomer(customer);
+                let maxMaKH = 0;
+                const allCustomer = await Customer.selectAllCustomers();
+                allCustomer.forEach(customer => {
+                    if (maxMaKH < customer.MaKH) {
+                        maxMaKH = customer.MaKH;
+                    }
+                });
+                await Bill.addBill(maxMaKH, date, total);
+                // console.log("id = 0");
+            }
+
+            for (let i = 0; i< books.length; i++) {
+                await Book.updateBookByID(books[i].bookId, books[i].quantity);
+            }
+
+            res.send({
+                msg: 1
+            });
+
+        } catch (error) {
+            res.send({
+                msg: 0
+            });
+        }
+    }
+    async debt(req, res) {
+        try {
+            const data = req.body.data;
+            const customerID = data.customer.customerID;
+            const books = data.books;
+            const date = data.date;
+            const total = data.total;
+            const customer = data.customer;
+            console.log(data);
+            console.log(customerID);
+            
+            if (customerID > 0) {
+                const rs = await Bill.addBill(customerID, date, total);
+                const KH = await Customer.selectCustomerByID(customerID);
+                const debt = KH[0].No + total;
+                await Customer.updateDebt(customerID, debt);
+                // console.log("id != 0");
+            } else {
+                customer = {...customer, no: total}
+                await Customer.insertCustomer(customer);
+                let maxMaKH = 0;
+                const allCustomer = await Customer.selectAllCustomers();
+                allCustomer.forEach(customer => {
+                    if (maxMaKH < customer.MaKH) {
+                        maxMaKH = customer.MaKH;
+                    }
+                });
+                await Bill.addBill(maxMaKH, date, total);
+                // console.log("id = 0");
+            }
+
+            for (let i = 0; i< books.length; i++) {
+                await Book.updateBookByID(books[i].bookId, books[i].quantity);
+            }
+
+            res.send({
+                msg: 1
+            });
+            
+        } catch (error) {
+            res.send({
+                msg: 0
+            });
         }
     }
 }
