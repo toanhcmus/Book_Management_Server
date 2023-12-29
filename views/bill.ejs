@@ -1,18 +1,20 @@
 <%- include('header') -%>
 
 <div class = "container-fluid">
-        <div style = "position: absolute;top: 50%; left: 10%; width: 75%; bottom: 100%; text-align: center; font-size: 18px; background: #6994dd;"> 
+        <div style = "position: absolute;top: 50%; left: 10%; width: 80%; bottom: 100%; text-align: center; font-size: 18px; background: #6994dd;"> 
         <% if (checkCustomer === 2) { %>
             <form id="form-checkCustomer" class="row g-3" action="/customer/check" method="POST" style="border-style: double;" >  
                 <h4>Nhập thông tin khách hàng</h4>
                 <div class="col-md-6" id="inputCustomerName">
                     <label for="name" class="form-label" style = "color: black; font-weight: bold;">Tên khách hàng</label>
-                    <input type="text" class="form-control" id="customerName" name="customerName">
+                    <input type="text" class="form-control" id="customerName" name="customerName">  
+                    <p id="nameError" style="color: red; display: none;">* Tên không hợp lệ</p>                              
                 </div>
+                
                 <div class="col-md-6" id="inputCustomerPhone">
-                    <label for="customerPhone" class="form-label" style = "color: black; font-weight: bold;">Số điện thoại
-                    </label>
+                    <label for="customerPhone" class="form-label" style = "color: black; font-weight: bold;">Số điện thoại</label>
                     <input type="tel" class="form-control" id="customerPhone" name="customerPhone">
+                    <p id =  "phoneError" style="color: red; display: none;">* Số điện thoại không hợp lệ</p>
                 </div>
                 <% if (msg === 3) { %>
                     <p style="color: red;">* Khách hàng đang nợ hơn mức quy định</p>
@@ -52,11 +54,6 @@
                     </label>
                     <input type="text" class="form-control" id="customerDebt" name="customerDebt" value="<%= customer.No %>" disabled>
                 </div>
-                <div class="col-md-6" id="inputDate">
-                    <label for="customerDate" class="form-label" style = "color: black; font-weight: bold;"> Ngày lập
-                    </label>
-                    <input type="date" class="form-control" id="customerDate" name="customerDate" >
-                </div>
             </div>
             <% } %>  
         
@@ -80,11 +77,6 @@
                         <label for="customerAddress" class="form-label" style = "color: black; font-weight: bold;">Địa chỉ
                         </label>
                         <input type="text" class="form-control" id="customerAddress" name="customerAddress">
-                    </div>
-                    <div class="col-md-6" id="inputDate">
-                        <label for="customerDate" class="form-label" style = "color: black; font-weight: bold;"> Ngày lập
-                        </label>
-                        <input type="date" class="form-control" id="customerDate" name="customerDate" >
                     </div>
                 </div>
             <% } %>
@@ -146,6 +138,32 @@
 </div>
 
 <script>
+    let isvalid = true;
+    $(document).ready(function () {
+        $('#customerName').on('input', function () {
+            var regex = /^[a-zA-Z\sÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂẤẮẦẰẾỀỂỄỒỐỖỔỜỚỠỞỨỮỬĐđàáâãèéêìíòóôõùúăấắầằếềểễồốỗổờớỡởứữử\s]+$/;
+            var customerName = $(this).val();
+
+            if (!regex.test(customerName)) {
+                $('#nameError').show();
+                isvalid = false;
+            } else {
+                $('#nameError').hide();
+            }
+        });
+
+        $('#customerPhone').on('input', function () {
+            var regex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/;
+            var customerPhone = $(this).val();
+
+            if (!regex.test(customerPhone)) {
+                $('#phoneError').show();
+                isvalid = false;
+            } else {
+                $('#phoneError').hide();
+            }
+        });
+    });
 
     let totalAmount = 0;
 
@@ -170,12 +188,9 @@
 
         let checkCustomer = <%- checkCustomer %>;
         let customer = null;
-        let customerDate = document.getElementById('customerDate').value;
-        console.log(customerDate);
 
         if (checkCustomer === 0) {
             // Get input values
-            
             let customerName = document.getElementById('customerName').value;
             let customerPhone = document.getElementById('customerPhone').value;
             let customerEmail = document.getElementById('customerEmail').value;
@@ -185,8 +200,7 @@
                 customerName: customerName,
                 customerPhone: customerPhone,
                 customerEmail: customerEmail,
-                customerAddress: customerAddress,
-                customerDate: customerDate
+                customerAddress: customerAddress
             };
         } 
         if (checkCustomer === 1) {
@@ -203,7 +217,7 @@
         let data = {
             total: totalAmount,
             books: selectedBooks,
-            date: customerDate,
+            date: getCurrentDate(),
             customer: customer
         }
 
@@ -247,7 +261,6 @@
     function debtBill() {
         let checkCustomer = <%- checkCustomer %>;
         let customer = null;
-        let customerDate = document.getElementById('customerDate').value;
 
         if (checkCustomer === 0) {
             // Get input values
@@ -277,7 +290,7 @@
         let data = {
             total: totalAmount,
             books: selectedBooks,
-            date: customerDate,
+            date: getCurrentDate(),
             customer: customer
         }
 
