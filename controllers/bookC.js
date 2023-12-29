@@ -17,8 +17,11 @@ class bookC {
     }
 
     async importBook(req, res) {
-        //console.log(req.body);
+        // console.log(req.body);
         const dataImport = req.body.data;
+        const date = req.body.date;
+
+        await Book.addDonNhapSach(date);
 
         for (let i = 0; i < dataImport.length; i++) {
             try {
@@ -39,6 +42,26 @@ class bookC {
                 });
             }
         }
+
+        let maxMaDonNS = 0;
+        const donNS = await Book.selectAllDonNhapSach();
+        for (let j = 0; j < donNS.length; j++) {
+            if (donNS[j].MaDonNS > maxMaDonNS) {
+                maxMaDonNS = donNS[j].MaDonNS;
+            }
+        }
+
+        for (let i = 0; i < dataImport.length; i++) {
+            const rs = await Book.selectBook(dataImport[i].TenSach);
+            const obj = {
+                MaDonNS: maxMaDonNS,
+                MaSach: rs[0].MaSach,
+                SoLuong: dataImport[i].SoLuong,
+                DonGia: dataImport[i].Gia
+            }
+            await Book.addThongTinNhapSach(obj);
+        }
+
         res.send({
             msg: 1
         });

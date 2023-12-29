@@ -311,6 +311,8 @@
     $(document).ready(function() {
       // Function to calculate the total amount
       function calculateTotal() {
+        totalAmount = 0;
+        
         // Iterate through each checked checkbox
         $('input[type="checkbox"]:checked').each(function() {
           const bookRow = $(this).closest('tr');
