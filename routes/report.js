@@ -22,8 +22,5 @@ router.post('/inventory', async (req, res) => {
   console.log(month, year);
 })
 
-router.get("/timkim", ensureAuthenticatedUser, function (req, res) {
-  res.send("<h1>hi</h1>")
-});
 
 module.exports = router;
