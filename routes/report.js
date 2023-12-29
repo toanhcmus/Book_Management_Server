@@ -4,6 +4,6 @@ const { ensureAuthenticatedUser, forwardAuthenticatedUser } = require('../config
 const Report = require('../controllers/reportC');
 
 router.get("/", ensureAuthenticatedUser, Report.pageReport);
-router.post("/", ensureAuthenticatedUser, Report.inventoryReport);
+router.post("/", ensureAuthenticatedUser, Report.report);
 
 module.exports = router;
