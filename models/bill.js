@@ -35,5 +35,18 @@ module.exports = {
         } catch (err) {
             console.log("insert bill failed");
         }
+    },
+    selectHoaDon: async (month, year) => {
+        const rs = await db.any('SELECT * FROM "HoaDon" WHERE EXTRACT(YEAR FROM "NgayLap") = $1 AND EXTRACT(MONTH FROM "NgayLap") = $2;', [year, month]);
+        return rs;
+    },
+    selectTTHoaDon: async (MaHD) => {
+        const rs = await db.any('SELECT * FROM "ThongTinHoaDon" WHERE "MaHoaDon" = $1;', [MaHD]);
+        return rs;
+    },
+    selectTTThoaDonBD: async (date) => {
+        const rs = await db.any(`select * from "HoaDon" JOIN "ThongTinHoaDon" 
+        on "HoaDon"."MaHoaDon" = "ThongTinHoaDon"."MaHoaDon" WHERE "NgayLap" <= $1 ORDER BY "MaThongTinHD" ASC;`, [date]);
+        return rs;
     }
 }

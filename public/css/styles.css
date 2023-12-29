@@ -88,3 +88,17 @@
     margin-right: 20px;
     text-align: center;
   }
+
+  .center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1%;
+  }
+
+  #form-report {
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 50px;
+    margin-right: 10%;
+  }

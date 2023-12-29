@@ -45,5 +45,18 @@ module.exports = {
     },
     addThongTinNhapSach: async(obj) => {
         await db.none('INSERT INTO public."ThongTinNhapSach"("MaDonNS", "MaSach", "SoLuong", "DonGia") VALUES ($1, $2, $3, $4)', [obj.MaDonNS, obj.MaSach, obj.SoLuong, obj.DonGia]);
+    },
+    selectDonNhapSach: async(month, year) => {
+        const rs = await db.any('SELECT * FROM "DonNhapSach" WHERE EXTRACT(YEAR FROM "NgayNhap") = $1 AND EXTRACT(MONTH FROM "NgayNhap") = $2;', [year, month]);
+        return rs;
+    },
+    selectThongTinNhapSach: async(MaDonNS) => {
+        const rs = await db.any('SELECT * FROM "ThongTinNhapSach" WHERE "MaDonNS" = $1;', [MaDonNS]);
+        return rs;
+    },
+    selectTTDonNhapSachBN: async(date) => {
+        const rs = await db.any(`SELECT * FROM "DonNhapSach" JOIN "ThongTinNhapSach" 
+        ON "DonNhapSach"."MaDonNS" = "ThongTinNhapSach"."MaDonNS" WHERE "NgayNhap" <= $1 ORDER BY "MaThongTinNS" ASC`, [date]);
+        return rs;
     }
 }

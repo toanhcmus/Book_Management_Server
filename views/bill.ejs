@@ -52,6 +52,11 @@
                     </label>
                     <input type="text" class="form-control" id="customerDebt" name="customerDebt" value="<%= customer.No %>" disabled>
                 </div>
+                <div class="col-md-6" id="inputDate">
+                    <label for="customerDate" class="form-label" style = "color: black; font-weight: bold;"> Ngày lập
+                    </label>
+                    <input type="date" class="form-control" id="customerDate" name="customerDate" >
+                </div>
             </div>
             <% } %>  
         
@@ -75,6 +80,11 @@
                         <label for="customerAddress" class="form-label" style = "color: black; font-weight: bold;">Địa chỉ
                         </label>
                         <input type="text" class="form-control" id="customerAddress" name="customerAddress">
+                    </div>
+                    <div class="col-md-6" id="inputDate">
+                        <label for="customerDate" class="form-label" style = "color: black; font-weight: bold;"> Ngày lập
+                        </label>
+                        <input type="date" class="form-control" id="customerDate" name="customerDate" >
                     </div>
                 </div>
             <% } %>
@@ -160,9 +170,11 @@
 
         let checkCustomer = <%- checkCustomer %>;
         let customer = null;
+        let customerDate = document.getElementById('customerDate').value;
 
         if (checkCustomer === 0) {
             // Get input values
+            
             let customerName = document.getElementById('customerName').value;
             let customerPhone = document.getElementById('customerPhone').value;
             let customerEmail = document.getElementById('customerEmail').value;
@@ -172,7 +184,8 @@
                 customerName: customerName,
                 customerPhone: customerPhone,
                 customerEmail: customerEmail,
-                customerAddress: customerAddress
+                customerAddress: customerAddress,
+                customerDate: customerDate
             };
         } 
         if (checkCustomer === 1) {
@@ -189,7 +202,7 @@
         let data = {
             total: totalAmount,
             books: selectedBooks,
-            date: getCurrentDate(),
+            date: customerDate,
             customer: customer
         }
 
@@ -233,6 +246,7 @@
     function debtBill() {
         let checkCustomer = <%- checkCustomer %>;
         let customer = null;
+        let customerDate = document.getElementById('customerDate').value;
 
         if (checkCustomer === 0) {
             // Get input values
@@ -262,7 +276,7 @@
         let data = {
             total: totalAmount,
             books: selectedBooks,
-            date: getCurrentDate(),
+            date: customerDate,
             customer: customer
         }
 
