@@ -13,7 +13,7 @@ module.exports = {
     },
     addTTHoaDon: async (MaHoaDon, obj) => {
         try {
-            await db.one('INSERT INTO public."ThongTinHoaDon"("MaHoaDon", "MaSach", "SoLuong") VALUES ($1, $2, $3)', [MaHoaDon, obj.bookId, obj.quantity]);
+            await db.none('INSERT INTO public."ThongTinHoaDon"("MaHoaDon", "MaSach", "SoLuong") VALUES ($1, $2, $3)', [MaHoaDon, obj.bookId, obj.quantity]);
         } catch (error) {
             console.error('Error inserting:', error);
             throw error;

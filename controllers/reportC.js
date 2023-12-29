@@ -86,8 +86,11 @@ class reportC {
                     allBooks[index].TonDau -= hoadonTuTruoc[i].SoLuong;
                 }
 
+                console.log("HD:", hoadon);
+
                 for (let i = 0; i < hoadon.length; i++) {
                     const hdTT = await HoaDon.selectTTHoaDon(hoadon[i].MaHoaDon);
+                    console.log("HdTT", hdTT);
                     for (let j = 0; j < hdTT.length; j++) {
                         // console.log("TTNS:", dsTTDonNhapSach[j].MaSach);
                         let index = allBooks.findIndex((book) => {
@@ -97,18 +100,17 @@ class reportC {
                         allBooks[index].Ban += hdTT[j].SoLuong;
                     }
                 }
-
-                console.log(allBooks);
                 for (let i = 0; i < allBooks.length; i++) {
                     allBooks[i].PhatSinh = allBooks[i].Nhap - allBooks[i].Ban;
                     allBooks[i].TonCuoi = allBooks[i].TonDau + allBooks[i].PhatSinh;
                 }
-                let hasEmpty = false;
-                for (let i = 0; i < allBooks.length; i++) {
-                    if (allBooks[i].TonDau <= allBooks[i].TonCuoi) {
-                        hasEmpty = true;
-                    }
-                }
+                console.log(allBooks);
+                let hasEmpty = true;
+                // for (let i = 0; i < allBooks.length; i++) {
+                //     if (allBooks[i].TonDau <= allBooks[i].TonCuoi) {
+                //         hasEmpty = true;
+                //     }
+                // }
 
                 // allBooks = {...allBooks, month: month, year: year};
 
