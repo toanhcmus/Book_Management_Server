@@ -36,4 +36,14 @@ module.exports = {
         console.log(rs);
         return rs;
     },
+    addDonNhapSach: async (date) => {
+        await db.none('INSERT INTO public."DonNhapSach"("NgayNhap") VALUES ($1)', [date]);
+    },
+    selectAllDonNhapSach: async () => {
+        const rs = await db.any('SELECT * FROM public."DonNhapSach"');
+        return rs;
+    },
+    addThongTinNhapSach: async(obj) => {
+        await db.none('INSERT INTO public."ThongTinNhapSach"("MaDonNS", "MaSach", "SoLuong", "DonGia") VALUES ($1, $2, $3, $4)', [obj.MaDonNS, obj.MaSach, obj.SoLuong, obj.DonGia]);
+    }
 }

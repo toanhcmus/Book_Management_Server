@@ -8,7 +8,7 @@
         <div class="card-body">
             <div>
                 <label for="inputDataImport">Ngày nhập sách: </label>
-                <input type="date" required id="inputDataImport">
+                <input type="date" required id="inputDataImport" name="inputDataImport">
             </div>
             <table class="table table-import">
                 <thead class="table-dark">
@@ -189,10 +189,10 @@
                 'Content-Type': 'application/json',
                 'Accept': 'application/json, text/plain, */*',
             },
-            body: JSON.stringify({"data": dataArray})
+            body: JSON.stringify({"data": dataArray, "date": date})
         }).then(response => response.json())
         .then(data => {
-            console.log('Server response:', data);
+            // console.log('Server response:', data);
             if (data.msg === 1) {
                 alert('Nhập thành công!');
                 window.location.href='/book/import';
