@@ -12,7 +12,7 @@ class reportC {
             res.render("500", {error: error.stack});
         }
     }
-    async inventoryReport(req, res) {
+    async inventoryReport(req, res) {  /// 
         try {
             // console.log(req.body);
             const option = parseInt(req.body.optionReport);
