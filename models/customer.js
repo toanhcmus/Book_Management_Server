@@ -57,7 +57,22 @@ module.exports = {
       console.error("Error inserting:", error);
       throw error;
     }
-  },
+    },
+  
+    selectDebt: async (month, year) => {
+        const rs = await db.any(
+            'SELECT * FROM "PhieuThuTien" WHERE  EXTRACT(YEAR FROM "NgayThuTien") = $1 AND EXTRACT(MONTH FROM "NgayThuTien") = $2',
+            [year, month]
+        );
+        return rs;
+    },
+
+    selectDebtTuTruoc: async (date) => {
+    const rs = await db.any(
+      'SELECT * FROM "PhieuThuTien" WHERE  "NgayThuTien" <= $1',[date]
+    );
+    return rs;
+    }
 
   // insert vao Bao Cao Cong no
 //   insertCustomer: async (obj) => {
