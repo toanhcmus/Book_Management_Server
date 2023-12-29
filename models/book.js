@@ -15,12 +15,12 @@ module.exports = {
     },
     selectBook: async(name) => {
         const rs = await db.any('SELECT * FROM public."Sach" WHERE lower("TenSach") ILIKE $1', [`%${name.toLowerCase()}%`]);
-        console.log(rs);
+        // console.log(rs);
         return rs;
     },
     selectBookByID: async(id) => {
         const rs = await db.any('SELECT * FROM public."Sach" WHERE "MaSach" = $1', [id]);
-        console.log(rs);
+        // console.log(rs);
         return rs;
     },
     updateBook: async(TenSach, SoLuong) => {
@@ -33,7 +33,7 @@ module.exports = {
     },
     searchBook: async(name) => {
         const rs = await db.any('SELECT * FROM public."Sach" WHERE lower("TenSach" || "TacGia" || "TheLoai") LIKE $1', [`%${name.toLowerCase()}%`]);
-        console.log(rs);
+        // console.log(rs);
         return rs;
     },
     addDonNhapSach: async (date) => {
