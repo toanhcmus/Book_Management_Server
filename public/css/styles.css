@@ -118,3 +118,53 @@ label {
   font-size: 21px;
   margin-top: 10px;
 }
+  .btn-submit {
+    margin-left: 3%;
+    flex: 5%;
+  }
+
+/* importBook */
+.form-nhap {
+  margin: 50px 20px;
+}
+
+.card-import {
+  margin: 20px;
+}
+
+.table-import {
+  margin-top: 20px;
+  margin-bottom: 20px;
+}
+
+  #form-search {
+    width: 90%;
+    margin-left: 20px;
+    margin-top: 20px;
+  }
+
+  .caption {
+    text-align: center;
+    margin-top: 20px;
+  }
+  
+  #customer_list {
+    margin-top: 20px;
+    margin-left: 50px;
+    margin-right: 20px;
+    text-align: center;
+  }
+
+  .center-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    margin-top: 1%;
+  }
+
+  #form-report {
+    width: 80%;
+    margin-left: 10%;
+    margin-top: 50px;
+    margin-right: 10%;
+  }

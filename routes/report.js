@@ -1,26 +1,9 @@
-const express = require("express");
+const express = require('express');
 const router = express.Router();
-const {
-  ensureAuthenticatedUser,
-  forwardAuthenticatedUser,
-} = require("../config/auth");
+const { ensureAuthenticatedUser, forwardAuthenticatedUser } = require('../config/auth');
+const Report = require('../controllers/reportC');
 
-const report = require("../controllers/reportC");
-
-router.get("/", ensureAuthenticatedUser, report.pageCreate);
-
-router.get("/inventory", ensureAuthenticatedUser, report.inventoryTimeCreate);
-
-// router.get(
-//   "/month=:month&year=:year",
-//   ensureAuthenticatedUser,
-//   report.inventoryCreate
-// );
-router.post('/inventory', async (req, res) => {
-  let month = req.body.month;
-  let year = req.body.year;
-  console.log(month, year);
-})
-
+router.get("/", ensureAuthenticatedUser, Report.pageReport);
+router.post("/", ensureAuthenticatedUser, Report.inventoryReport);
 
 module.exports = router;

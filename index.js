@@ -43,10 +43,7 @@ app.use('/admin', require('./routes/admin.js'));
 app.use('/book', require('./routes/book.js'));
 app.use('/customer', require('./routes/customer.js'));
 app.use('/bill', require('./routes/bill.js'));
-app.use("/report", require("./routes/report.js"));
-app.use("/report/inventory", require("./routes/report.js"));
-
-
+app.use('/report', require('./routes/report.js'));
 
 app.get('*', function(req, res){
   res.render("404");

@@ -65,13 +65,19 @@ class billC {
             const books = data.books;
             const date = data.date;
             const total = data.total;
-            const customer = data.customer;
-            console.log(data);
-            console.log(customerID);
+            let customer = data.customer;
+            // console.log(data);
+            // console.log(customerID);
 
-            for (let i = 0; i< books.length; i++) {
+            for (let i = 0; i < books.length; i++) {
                 const foundBook = await Book.selectBookByID(books[i].bookId);
-                if (foundBook.SoLuong - books[i].quantity < 20) {
+                console.log("book: ", books[i]);
+                console.log(foundBook);
+                let soLuongSau = foundBook[0].SoLuong - books[i].quantity;
+                console.log(soLuongSau);
+                if (soLuongSau < 20) {
+                    console.log(books[i].quantity);
+                    console.log(foundBook[0].SoLuong);
                     res.send({
                         msg: 0
                     });
@@ -95,8 +101,17 @@ class billC {
                 // console.log("id = 0");
             }
 
+            let maxMaHD = 0;
+            const allBill = await Bill.selectAllBills();
+            allBill.forEach(bill => {
+                if (maxMaHD < bill.MaHoaDon) {
+                    maxMaHD = bill.MaHoaDon;
+                }
+            });
+
             for (let i = 0; i< books.length; i++) {
                 await Book.updateBookByID(books[i].bookId, books[i].quantity);
+                await Bill.addTTHoaDon(maxMaHD, books[i]);
             }
 
             res.send({
@@ -104,6 +119,7 @@ class billC {
             });
 
         } catch (error) {
+            console.log(error);
             res.send({
                 msg: 0
             });
@@ -116,9 +132,9 @@ class billC {
             const books = data.books;
             const date = data.date;
             const total = data.total;
-            const customer = data.customer;
-            console.log(data);
-            console.log(customerID);
+            let customer = data.customer;
+            // console.log(data);
+            // console.log(customerID);
             
             if (customerID > 0) {
                 const rs = await Bill.addBill(customerID, date, total);
@@ -140,8 +156,17 @@ class billC {
                 // console.log("id = 0");
             }
 
+            let maxMaHD = 0;
+            const allBill = await Bill.selectAllBills();
+            allBill.forEach(bill => {
+                if (maxMaHD < bill.MaHoaDon) {
+                    maxMaHD = bill.MaHoaDon;
+                }
+            });
+
             for (let i = 0; i< books.length; i++) {
                 await Book.updateBookByID(books[i].bookId, books[i].quantity);
+                await Bill.addTTHoaDon(maxMaHD, books[i]);
             }
 
             res.send({

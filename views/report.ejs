@@ -1,15 +1,74 @@
-<%- include('header') -%>
+<%- include('header') %>
 
-    <div>
-        <div class="center-container">
-            <a href="/report/inventory" class="btn btn-success btn-xl" style="min-width: 200px;" role="button" aria-disabled="true">Báo
-                cáo tồn</a>
-            <a href="/" class="btn btn-success btn-xl" style="min-width: 200px;" role="button"
-                aria-disabled="true">Báo cáo công nợ</a>
-    
+<section style="margin-top: 50px; text-align: center;">
+    <h1 class="title">LẬP BÁO CÁO</h1>
+</section>
+
+<section id="form-report">
+    <form action="/report" method="post">
+        <select class="form-select" aria-label="Default select example" name="optionReport">
+            <option selected value="1">Báo cáo tồn</option>
+            <option value="2">Báo cáo công nợ</option>
+        </select>
+        <label for='month'>Tháng</label>
+        <select class="form-select mb-3" id='month' name="month" aria-label=".form-select-lg example">
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+        </select>
+
+
+        <label for='year'>Năm</label>
+        <select class="form-select mb-3" id="year" name="year" aria-label=".form-select-lg example">
+            <option value="2020">2020</option>
+            <option value="2021">2021</option>
+            <option value="2022">2022</option>
+            <option value="2023">2023</option>
+            <option value="2024">2024</option>
+        </select>
+        <div class="col-12" style = "margin-bottom: 10px;">
+            <button type="submit" class="btn btn-dark">Kiểm tra</button>
+            <span>&nbsp;</span>
         </div>
-    
-    
-    </div>
+    </form>
+</section>
 
-<%- include('footer') -%>
+<% if (empty === true && option === 1) { %>
+    <section style="width: 80%; margin-top: 20px; margin-left: 10%; margin-right: 10%;">
+        <p>Báo cáo tồn tháng <%= allBooks.month %> năm <%= allBooks.year %></p>
+        <table class="table table-striped" id="dataTable">
+            <thead class="table-dark">
+                <tr>
+                  <th scope="col">Tên sách</th>
+                  <th scope="col">Tồn đầu</th>
+                  <th scope="col">Tồn cuối</th>
+                  <th scope="col">Phát sinh</th>
+                </tr>
+              </thead>
+              <tbody>
+                  <% allBooks.books.forEach(book => { %>
+                    <% if (book.TonDau === 0 && book.TonCuoi === 0) { %>
+                     
+                    <% } else{ %>
+                      <tr>
+                          <td><%= book.TenSach %></td>
+                          <td><%= book.TonDau %></td>
+                          <td><%= book.TonCuoi %></td>
+                          <td><%= book.PhatSinh %></td>
+                      </tr>
+                  <% }}) %>
+              </tbody>
+        </table>
+    </section>
+<% } %>
+
+<%- include('footer') %>
