@@ -155,8 +155,17 @@ class billC {
                 // console.log("id = 0");
             }
 
+            let maxMaHD = 0;
+            const allBill = await Bill.selectAllBills();
+            allBill.forEach(bill => {
+                if (maxMaHD < bill.MaHoaDon) {
+                    maxMaHD = bill.MaHoaDon;
+                }
+            });
+
             for (let i = 0; i< books.length; i++) {
                 await Book.updateBookByID(books[i].bookId, books[i].quantity);
+                await Bill.addTTHoaDon(maxMaHD, books[i]);
             }
 
             res.send({
