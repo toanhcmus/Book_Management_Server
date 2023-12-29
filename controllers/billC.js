@@ -166,7 +166,6 @@ class billC {
 
             for (let i = 0; i< books.length; i++) {
                 await Book.updateBookByID(books[i].bookId, books[i].quantity);
-                await Bill.addTTHoaDon(maxMaHD, books[i]);
             }
 
             res.send({
