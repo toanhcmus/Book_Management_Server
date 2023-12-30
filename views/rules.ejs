@@ -79,7 +79,6 @@
     const btn_cancel = document.getElementById('cancel');
     const modal_noti_container = document.getElementById('modal-noti-container');
 
-
     btn_cancel.addEventListener('click', ()=> {
         document.getElementById('rule1').value = <%= rules[0].SoLuongNhapItNhat %>;
         document.getElementById('rule2').value = <%= rules[0].SoLuongTonToiDaKhiNhap %>;
@@ -100,7 +99,7 @@
 
         if (data.val1 < 0)
         {
-            document.getElementById('noti-content').innerHTML = "Giá trị quy định không được âm";
+            document.getElementById('noti-content').innerHTML = "Giá trị quy định không được âm: " + data.val1;
 
             modal_noti_container?.classList.add('show-noti-dialog');
 
@@ -110,7 +109,7 @@
 
         if (data.val2 < 0)
         {
-            document.getElementById('noti-content').innerHTML = "Giá trị quy định không được âm";
+            document.getElementById('noti-content').innerHTML = "Giá trị quy định không được âm " + data.val2;
 
             modal_noti_container?.classList.add('show-noti-dialog');
 
@@ -120,7 +119,7 @@
 
         if (data.val3 < 0)
         {
-            document.getElementById('noti-content').innerHTML = "Giá trị quy định không được âm";
+            document.getElementById('noti-content').innerHTML = "Giá trị quy định không được âm: " + data.val3;
 
             modal_noti_container?.classList.add('show-noti-dialog');
 
@@ -130,7 +129,7 @@
 
         if (data.val4 < 0)
         {
-            document.getElementById('noti-content').innerHTML = "Giá trị quy định không được âm";
+            document.getElementById('noti-content').innerHTML = "Giá trị quy định không được âm: " + data.val4;
 
             modal_noti_container?.classList.add('show-noti-dialog');
 
@@ -138,7 +137,7 @@
             return;
         }
 
-        modal_noti_container?.classList.add('show-noti-dialog');
+
         fetch('', {
             method: 'POST',
             headers: {
@@ -155,8 +154,18 @@
         })
         .catch(error => {
             console.alert('Error:', error);
+
+            return;
         });
 
+        document.getElementById('noti-content').innerHTML = "Thay đổi quy định thành công";
+
+        modal_noti_container?.classList.add('show-noti-dialog');
+
+        document.getElementById('rule1').value = data.val1;
+        document.getElementById('rule2').value = data.val2;
+        document.getElementById('rule3').value = data.val3;
+        document.getElementById('rule4').value = data.val4;
     });
 
     const ok_button = document.getElementById('ok-button');
