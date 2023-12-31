@@ -17,7 +17,10 @@
                     <p id =  "phoneError" style="color: red; display: none;">* Số điện thoại không hợp lệ</p>
                 </div>
                 <% if (msg === 3) { %>
-                    <p style="color: red;">* Khách hàng đang nợ hơn mức quy định</p>
+                    <script>
+                        alert('Khách hàng đang nợ hơn mức quy định!');
+                        window.location.href='/bill';
+                    </script>
                 <% } %>
                 
                 <div class="col-12" style = "margin-bottom: 10px;">
@@ -138,32 +141,50 @@
 </div>
 
 <script>
-    let isvalid = true;
-    $(document).ready(function () {
-        $('#customerName').on('input', function () {
-            var regex = /^[a-zA-Z\sÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂẤẮẦẰẾỀỂỄỒỐỖỔỜỚỠỞỨỮỬĐđàáâãèéêìíòóôõùúăấắầằếềểễồốỗổờớỡởứữử\s]+$/;
-            var customerName = $(this).val();
 
-            if (!regex.test(customerName)) {
-                $('#nameError').show();
-                isvalid = false;
-            } else {
-                $('#nameError').hide();
-            }
+    document.addEventListener("DOMContentLoaded", function () {
+        var form = document.getElementById("form-checkCustomer");
+
+        form.addEventListener("submit", function (event) {
+            event.preventDefault();
+
+            // check condition before submit
+            if (validateForm()) {
+                form.submit();
+            } 
         });
 
-        $('#customerPhone').on('input', function () {
-            var regex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/;
-            var customerPhone = $(this).val();
+        function validateForm() {
+            var customerName = document.getElementById("customerName").value;
+            var customerPhone = document.getElementById("customerPhone").value;
 
-            if (!regex.test(customerPhone)) {
-                $('#phoneError').show();
-                isvalid = false;
-            } else {
-                $('#phoneError').hide();
+            // check input conditions
+            var nameError = document.getElementById("nameError");
+            var phoneError = document.getElementById("phoneError");
+
+            // reset error messages
+            nameError.style.display = "none";
+            phoneError.style.display = "none";
+
+            // check customer name
+            if (customerName.trim() === "") {
+                nameError.style.display = "block";
+                return false;
             }
-        });
-    });
+
+            // check phone number
+            var phoneRegex = /(84|0[3|5|7|8|9])+([0-9]{8})\b/;
+            if (!phoneRegex.test(customerPhone)) {
+                phoneError.style.display = "block";
+                return false;
+            }
+
+            return true;
+        }
+    });    
+
+
+    
 
     let totalAmount = 0;
 
@@ -319,10 +340,10 @@
         .then(data => {
             console.log('Server response:', data);
             if (data.msg === 1) {
-                alert('Thanh toán thành công!');
+                alert('Ghi nợ thành công!');
                 window.location.href='/bill';
             } else {
-                alert('Thanh toán không thành công do vi phạm quy định!');
+                alert('Ghi nợ không thành công do vi phạm quy định!');
                 window.location.href='/bill';
             }
         })
