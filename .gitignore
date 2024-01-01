@@ -1,2 +1,3 @@
 node_modules/
 routes/report.js
+.DS_Store
