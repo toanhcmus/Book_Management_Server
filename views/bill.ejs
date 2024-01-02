@@ -167,7 +167,8 @@
             phoneError.style.display = "none";
 
             // check customer name
-            if (customerName.trim() === "") {
+            var nameRegex = /^[a-zA-Z\sÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂẤẮẦẰẾỀỂỄỒỐỖỔỜỚỠỞỨỮỬĐđàáâãèéêìíòóôõùúăấắầằếềểễồốỗổờớỡởứữử\s]+$/;
+            if (!nameRegex.test(customerName)) {
                 nameError.style.display = "block";
                 return false;
             }
