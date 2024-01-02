@@ -44,7 +44,12 @@ class customerC {
             console.log(req.body);
             const id = req.body.MaKH;
             const debt = req.body.SoTienThu;
+            const date = req.body.NgayThu;
+
             await Customer.updateDebtCash(id, debt);
+            await Customer.insertDebt(id, debt, date);
+
+            console.log("da insert vao phieu thu tien");
             
         } catch (error) {
             res.send({

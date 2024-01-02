@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
 const { ensureAuthenticatedUser, forwardAuthenticatedUser } = require('../config/auth');
-const Report = require('../controllers/reportC');
+const rules = require('../controllers/rulesC');
 
-router.get("/", ensureAuthenticatedUser, Report.pageReport);
-router.post("/", ensureAuthenticatedUser, Report.report);
+router.get("/", ensureAuthenticatedUser, rules.pageRules);
+router.post("/", ensureAuthenticatedUser, rules.rulesAlteration);
 
 module.exports = router;
