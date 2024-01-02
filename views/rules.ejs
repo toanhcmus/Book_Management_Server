@@ -1,0 +1,194 @@
+<%- include('header') -%>
+
+<div id="quydinh-table">
+    <table id="quydinh">
+        <thead>
+            <th> QUY ĐỊNH </th>
+            <th> GIÁ TRỊ </th>
+        </thead>
+
+        <tbody>
+            <tr>
+                <td> Số lượng nhập tối thiểu </td>
+                <td class="input">
+                    <input type="number" id="rule1" value=<%= rules[0].SoLuongNhapItNhat %>>
+                </td>
+            </tr>
+
+            <tr>
+                <td> Lượng tồn tối đa trước khi nhập </td>
+                <td class="input">
+                    <input type="number" id="rule2" value=<%= rules[0].SoLuongTonToiDaKhiNhap %>>
+                </td>
+            </tr>
+
+            <tr>
+                <td> Tiền nợ tối đa </td>
+                <td class="input">
+                    <input type="number" id="rule3" value=<%= rules[0].NoToiDa %>>
+                </td>
+            </tr>
+
+            <tr>
+                <td> Lượng tồn tối thiểu sau khi bán </td>
+                <td class="input">
+                    <input type="number" id="rule4" value=<%= rules[0].TonSauToiThieu %>>
+                </td>
+            </tr>
+
+            <tr>
+                <td> Số tiền thu không được vượt quá số tiền nợ của khách </td>
+                <td class="input">
+                    <input type="checkbox" id="rule5" <%= rules[0].ApDungQuyDinh4 == 1 ? "checked" : "" %> >
+                </td>
+            </tr>
+        </tbody>
+    </table>
+</div>
+
+<div>
+    <div class="button_section">
+        <div class="buttons">
+            <button class="btn btn-success" id="apply">
+                Áp dụng
+            </button>
+
+            <button class="btn btn-warning" id="cancel">
+                Huỷ
+            </button>
+        </div>
+    </div>
+</div>
+
+<div id="modal-noti-container">
+    <div id="modal-noti">
+        <div class="modal-noti-header">
+            <h3>Thông báo</h3>
+        </div>
+        <div class="modal-noti-body" id="noti-content">
+            Thay đổi quy định thành công!    
+        </div>
+        <div class="modal-noti-footer">
+            <button id="ok-button">OK</button>
+        </div>
+    </div>
+</div>
+
+<script>
+    const btn_apply = document.getElementById('apply');
+    const btn_cancel = document.getElementById('cancel');
+    const modal_noti_container = document.getElementById('modal-noti-container');
+
+    btn_cancel.addEventListener('click', ()=> {
+        document.getElementById('rule1').value = <%= rules[0].SoLuongNhapItNhat %>;
+        document.getElementById('rule2').value = <%= rules[0].SoLuongTonToiDaKhiNhap %>;
+        document.getElementById('rule3').value = <%= rules[0].NoToiDa %>;
+        document.getElementById('rule4').value = <%= rules[0].TonSauToiThieu %>;
+        document.getElementById('rule5').checked = <%= rules[0].ApDungQuyDinh4 == 1 ? true : false %>;
+    });
+
+    btn_apply.addEventListener('click', ()=> {
+       try {
+        const data = {
+            val1: parseInt(document.getElementById('rule1').value),
+            val2: parseInt(document.getElementById('rule2').value),
+            val3: parseInt(document.getElementById('rule3').value),
+            val4: parseInt(document.getElementById('rule4').value),
+            val5: document.getElementById('rule5').checked ? 1 : 0
+        }
+
+        console.log(data);
+
+        if (data.val1 < 0 || isNaN(data.val1))
+        {
+            document.getElementById('noti-content').innerHTML = "Giá trị quy định không hợp lệ: " + data.val1;
+
+            modal_noti_container?.classList.add('show-noti-dialog');
+
+            document.getElementById('rule1').value = <%= rules[0].SoLuongNhapItNhat %>;
+            return;
+        }
+
+        if (data.val2 < 0 || isNaN(data.val2))
+        {
+            document.getElementById('noti-content').innerHTML = "Giá trị quy định không hợp lệ: " + data.val2;
+
+            modal_noti_container?.classList.add('show-noti-dialog');
+
+            document.getElementById('rule2').value = <%= rules[0].SoLuongTonToiDaKhiNhap %>;
+            return;
+        }
+
+        if (data.val3 < 0 || isNaN(data.val3))
+        {
+            document.getElementById('noti-content').innerHTML = "Giá trị quy định không hợp lệ: " + data.val3;
+
+            modal_noti_container?.classList.add('show-noti-dialog');
+
+            document.getElementById('rule3').value = <%= rules[0].NoToiDa %>;
+            return;
+        }
+
+        if (data.val4 < 0 || isNaN(data.val4))
+        {
+            document.getElementById('noti-content').innerHTML = "Giá trị quy định không hợp lệ: " + data.val4;
+
+            modal_noti_container?.classList.add('show-noti-dialog');
+
+            document.getElementById('rule4').value = <%= rules[0].TonSauToiThieu %>;
+            return;
+        }
+
+
+        fetch('', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+            },
+            body: JSON.stringify(data),
+        })
+        .then(response => response.json())
+        .then(data => {
+            // Xử lý kết quả từ server (nếu cần)
+            if (data.msg === 1) {
+            } else {
+            }
+        })
+        .catch(error => {
+            console.alert('Error:', error);
+            document.getElementById('rule1').value = <%= rules[0].SoLuongNhapItNhat %>;
+            document.getElementById('rule2').value = <%= rules[0].SoLuongTonToiDaKhiNhap %>;
+            document.getElementById('rule3').value = <%= rules[0].NoToiDa %>;
+            document.getElementById('rule4').value = <%= rules[0].TonSauToiThieu %>;
+            document.getElementById('rule5').checked = <%= rules[0].ApDungQuyDinh4 == 1 ? true : false %>;
+            return;
+        });
+
+        document.getElementById('noti-content').innerHTML = "Thay đổi quy định thành công";
+
+        modal_noti_container?.classList.add('show-noti-dialog');
+
+        document.getElementById('rule1').value = data.val1;
+        document.getElementById('rule2').value = data.val2;
+        document.getElementById('rule3').value = data.val3;
+        document.getElementById('rule4').value = data.val4;
+        } catch(e) {
+            console.log(e);
+            document.getElementById('rule1').value = <%= rules[0].SoLuongNhapItNhat %>;
+            document.getElementById('rule2').value = <%= rules[0].SoLuongTonToiDaKhiNhap %>;
+            document.getElementById('rule3').value = <%= rules[0].NoToiDa %>;
+            document.getElementById('rule4').value = <%= rules[0].TonSauToiThieu %>;
+            document.getElementById('rule5').checked = <%= rules[0].ApDungQuyDinh4 == 1 ? true : false %>;
+        }
+    });
+
+    const ok_button = document.getElementById('ok-button');
+
+    ok_button.addEventListener('click', ()=>{
+    modal_noti_container?.classList.remove('show-noti-dialog');
+});
+</script>
+
+</body>
+
+<%- include('footer') -%>

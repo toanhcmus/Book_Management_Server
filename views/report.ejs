@@ -71,4 +71,46 @@
     </section>
 <% } %>
 
+<% if (empty===true && option===2) { %>
+    <section style="width: 80%; margin-top: 20px; margin-left: 10%; margin-right: 10%;">
+        <p>Báo cáo công nợ tháng <%= allCustomers.month %> năm <%= allCustomers.year %>
+        </p>
+        <table class="table table-striped" id="dataTable">
+            <thead class="table-dark">
+                <tr>
+                    <th scope="col">Khách hàng</th>
+                    <th scope="col">Số điện thoại</th>
+                    <th scope="col">Nợ đầu</th>
+                    <th scope="col">Phát sinh</th>
+                    <th scope="col">Nợ cuối</th>
+                </tr>
+            </thead>
+            <tbody>
+                <% allCustomers.customers.forEach(customer=> { %>
+                    <% if (customer.TonDau===0 && customer.TonCuoi===0) { %>
+
+                        <% } else{ %>
+                            <tr>
+                                <td>
+                                    <%= customer.TenKH %>
+                                </td>
+                                <td>
+                                    <%= customer.SDT %>
+                                </td>
+                                <td>
+                                    <%= customer.NoDau %>
+                                </td>
+                                <td>
+                                    <%= customer.PhatSinh %>
+                                </td>
+                                <td>
+                                    <%= customer.NoCuoi %>
+                                </td>
+                            </tr>
+                            <% }}) %>
+            </tbody>
+        </table>
+    </section>
+    <% } %>
+
 <%- include('footer') %>

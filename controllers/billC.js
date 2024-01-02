@@ -22,6 +22,7 @@ class billC {
             let customerName = req.params.name;
             let customerPhone = req.params.phone;
             console.log(customerName, customerPhone);
+            console.log("here")
             const rs = await Customer.selectCustomer(customerName, customerPhone);
             const allBooks = await Book.selectAllBooks();
             const customer = {
@@ -63,7 +64,8 @@ class billC {
             const customerID = data.customer.customerID;
             const books = data.books;
             const date = data.date;
-            const total = data.total;
+            const total = data.total;   // ->
+            let ghino = 0;
             let customer = data.customer;
             // console.log(data);
             // console.log(customerID);
@@ -84,7 +86,7 @@ class billC {
             }
             
             if (customerID > 0) {
-                const rs = await Bill.addBill(customerID, date, total);
+                const rs = await Bill.addBill(customerID, date, total, ghino);
                 // console.log("id != 0");
             } else {
                 customer = {...customer, no: 0}
@@ -96,7 +98,7 @@ class billC {
                         maxMaKH = customer.MaKH;
                     }
                 });
-                await Bill.addBill(maxMaKH, date, total);
+                await Bill.addBill(maxMaKH, date, total,ghino);
                 // console.log("id = 0");
             }
 
@@ -130,13 +132,14 @@ class billC {
             const customerID = data.customer.customerID;
             const books = data.books;
             const date = data.date;
-            const total = data.total;
+            const total = data.total;   // ->
+            let ghino = 1;
             let customer = data.customer;
             // console.log(data);
             // console.log(customerID);
             
             if (customerID > 0) {
-                const rs = await Bill.addBill(customerID, date, total);
+                const rs = await Bill.addBill(customerID, date, total, ghino);
                 const KH = await Customer.selectCustomerByID(customerID);
                 const debt = KH[0].No + total;
                 await Customer.updateDebt(customerID, debt);
@@ -151,7 +154,7 @@ class billC {
                         maxMaKH = customer.MaKH;
                     }
                 });
-                await Bill.addBill(maxMaKH, date, total);
+                await Bill.addBill(maxMaKH, date, total, ghino);
                 // console.log("id = 0");
             }
 

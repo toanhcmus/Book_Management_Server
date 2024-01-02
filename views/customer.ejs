@@ -51,6 +51,11 @@
                     <input type="number" class="form-control" id="inputCash" step="1">
                 </div>
                 <p id="error-msg" style="color: red; font-weight: bold;"></p>
+                <div class="col-md-6" id="inputDate">
+                    <label for="customerDateDebit" class="form-label" style="color: black; font-weight: bold;"> Ngày lập
+                    </label>
+                    <input type="date" class="form-control" id="customerDateDebit" name="customerDateDebit">
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal" id="lapPhieuThuBtn" disabled>Lập</button>
@@ -110,6 +115,32 @@
                     }
                 });
 
+                let ngayLap;
+                let errorElement;
+                document.getElementById("customerDateDebit").addEventListener("input", function () {
+                    // Lấy giá trị ngày từ input
+                    ngayLap = this.value; // giá trị ngày sẽ được lấy từ ô nhập liệu
+                    console.log("debit time here");
+                    console.log(ngayLap);
+                    console.log("debit time ttthere");
+                    // Thực hiện các kiểm tra cần thiết và hiển thị thông báo lỗi nếu cần
+                    // (ví dụ: kiểm tra ngày có hợp lệ hay không)
+
+                    // Ví dụ: nếu ngày lớn hơn ngày hiện tại, hiển thị thông báo lỗi
+                    var currentDate = new Date();
+                    var selectedDate = new Date(ngayLap);
+
+                    errorElement = document.getElementById("date-error-msg");
+
+                    if (selectedDate > currentDate) {
+                        errorElement.innerText = "Ngày lập không được lớn hơn ngày hiện tại!";
+                        document.getElementById("lapPhieuThuBtn").disabled = true; // Vô hiệu hóa nút "Lập"
+                    } else {
+                        errorElement.innerText = ""; // Xóa thông báo lỗi nếu ngày hợp lệ
+                        document.getElementById("lapPhieuThuBtn").disabled = false; // Kích hoạt nút "Lập"
+                    }
+                });
+
                 // Gắn sự kiện click cho nút "Lập" trong modal
                 document.getElementById("lapPhieuThuBtn").addEventListener("click", function () {
                     // soTienT
@@ -128,7 +159,8 @@
                         SDT: soDienThoai,
                         Email: email,
                         DiaChi: diaChi,
-                        SoTienThu: soTienThu
+                        SoTienThu: soTienThu,
+                        NgayThu: ngayLap,
                     }
 
                     // Gửi thông tin lên server (điều này có thể sử dụng AJAX hoặc Fetch API)

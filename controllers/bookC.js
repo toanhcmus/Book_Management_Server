@@ -17,7 +17,7 @@ class bookC {
     }
 
     async importBook(req, res) {
-        console.log(req.body);
+        // console.log(req.body);
         const dataImport = req.body.data;
         const date = req.body.date;
 

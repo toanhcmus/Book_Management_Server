@@ -1,0 +1,41 @@
+<%- include('header') -%>
+
+<div style="margin-top: 1%;">
+    <form action="/report/inventory" name="inventory-time-form" method="POST" class="text-center" id="myInvetoryForm">
+        <div class="container container-time">
+            <label for='month'>Tháng</label>
+            <select class="form-select form-select-lg mb-3" name="month" id='month' aria-label=".form-select-lg example">
+                <option value="1">1</option>
+                <option value="2">2</option>
+                <option value="3">3</option>
+                <option value="4">4</option>
+                <option value="5">5</option>
+                <option value="6">6</option>
+                <option value="7">7</option>
+                <option value="8">8</option>
+                <option value="9">9</option>
+                <option value="10">10</option>
+                <option value="11">11</option>
+                <option value="12">12</option>
+            </select>
+
+
+            <label for='year'>Năm</label>
+            <select class="form-select form-select-lg mb-3" name = "year" id="year" aria-label=".form-select-lg example">
+                <option value="2020">2020</option>
+                <option value="2021">2021</option>
+                <option value="2022">2022</option>
+                <option value="2023">2023</option>
+                <option value="2024">2024</option>
+            </select>
+        </div>
+
+
+        <button type="submit" class="btn btn-primary">Lập báo cáo</button>
+
+    </form>
+
+</div>
+
+
+<%- include('footer') -%>
