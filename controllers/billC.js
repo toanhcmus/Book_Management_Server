@@ -87,7 +87,7 @@ class billC {
             
             if (customerID > 0) {
                 const rs = await Bill.addBill(customerID, date, total, ghino);
-                // console.log("id != 0");
+                //console.log("id != 0");
             } else {
                 customer = {...customer, no: 0}
                 await Customer.insertCustomer(customer);
@@ -99,7 +99,7 @@ class billC {
                     }
                 });
                 await Bill.addBill(maxMaKH, date, total,ghino);
-                // console.log("id = 0");
+                //console.log("id = 0");
             }
 
             let maxMaHD = 0;
