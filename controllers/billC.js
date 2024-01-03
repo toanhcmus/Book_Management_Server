@@ -82,6 +82,7 @@ class billC {
                     res.send({
                         msg: 0
                     });
+                    return;
                 }
             }
             
@@ -124,6 +125,7 @@ class billC {
             res.send({
                 msg: 0
             });
+            return;
         }
     }
     async debt(req, res) {
@@ -137,6 +139,21 @@ class billC {
             let customer = data.customer;
             // console.log(data);
             // console.log(customerID);
+            for (let i = 0; i < books.length; i++) {
+                const foundBook = await Book.selectBookByID(books[i].bookId);
+                console.log("book: ", books[i]);
+                console.log(foundBook);
+                let soLuongSau = foundBook[0].SoLuong - books[i].quantity;
+                console.log(soLuongSau);
+                if (soLuongSau < 20) {
+                    console.log(books[i].quantity);
+                    console.log(foundBook[0].SoLuong);
+                    res.send({
+                        msg: 0
+                    });
+                    return;
+                }
+            }
             
             if (customerID > 0) {
                 const rs = await Bill.addBill(customerID, date, total, ghino);
@@ -168,6 +185,7 @@ class billC {
 
             for (let i = 0; i< books.length; i++) {
                 await Book.updateBookByID(books[i].bookId, books[i].quantity);
+                
             }
 
             res.send({
@@ -178,6 +196,7 @@ class billC {
             res.send({
                 msg: 0
             });
+            return;
         }
     }
 }
