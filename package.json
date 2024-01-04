@@ -1,5 +1,5 @@
 {
-  "name": "index.js",
+  "name": "index",
   "version": "1.0.0",
   "main": "index.js",
   "scripts": {
@@ -23,6 +23,5 @@
     "passport-local": "^1.0.0",
     "pg-promise": "^11.5.4"
   },
-  "devDependencies": {},
   "description": ""
 }
