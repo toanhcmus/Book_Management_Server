@@ -74,7 +74,7 @@ class reportC {
           let index = allBooks.findIndex((book) => {
             return book.MaSach === donNhapSachTuTruoc[i].MaSach;
           });
-          allBooks[index].TonDau += donNhapSachTuTruoc[i].SoLzuong;
+          allBooks[index].TonDau += donNhapSachTuTruoc[i].SoLuong;
         }
 
         for (let i = 0; i < donNhapSach.length; i++) {
