@@ -77,77 +77,103 @@
 </div>
 
 <script>
-    function addBookRow() {
-        let allBooks = <%- JSON.stringify(books) %>;
-        let soluongNhapItNhat = "<%- soLuongNhapItNhat %>";
-        let SoLuongTonToiDaKhiNhap = "<%- SoLuongTonToiDaKhiNhap %>";
-        console.log(allBooks);
-        // Get input values from the modal
-        let bookName = document.getElementById('inputBookName').value;
-        let author = document.getElementById('inputAuthor').value;
-        let type = document.getElementById('inputType').value;
-        let count = document.getElementById('inputCount').value;
-        let price = document.getElementById('inputPrice').value;
+    document.getElementById("error-msg").innerHTML = "";
+    const btnThem = document.getElementById("btnAdd");
+    let bookName;
+    let author;
+    let type;
+    let count;
+    let price;
+    let allBooks = <%- JSON.stringify(books) %>;
+    let soluongNhapItNhat = "<%- soLuongNhapItNhat %>";
+    let SoLuongTonToiDaKhiNhap = "<%- SoLuongTonToiDaKhiNhap %>";
 
-        document.getElementById("error-msg").innerHTML = "";
+    document.addEventListener("DOMContentLoaded", function() {
+        // bookName = document.getElementById('inputBookName').value;
+        // author = document.getElementById('inputAuthor').value;
+        // type = document.getElementById('inputType').value;
+        // count = document.getElementById('inputCount').value;
+        // price = document.getElementById('inputPrice').value;
+        document.getElementById("error-msg").innerHTML = '';
 
-        if (bookName === '' || author === '' || type === '' || count === '' || price === '') {
-            document.getElementById("error-msg").innerHTML = "Vui lòng điền hết các trường!";
-            return;
-        }
+        document.getElementById('inputBookName').addEventListener('input', checkInputFields);
+        document.getElementById('inputAuthor').addEventListener('input', checkInputFields);
+        document.getElementById('inputType').addEventListener('input', checkInputFields);
+        document.getElementById('inputCount').addEventListener('input', checkInputFields);
+        document.getElementById('inputPrice').addEventListener('input', checkInputFields);
 
-        console.log(bookName);
-        let foundBook = {};
+        function checkInputFields() {
+            document.getElementById("error-msg").innerHTML = "";
+            bookName = document.getElementById('inputBookName').value;
+            author = document.getElementById('inputAuthor').value;
+            type = document.getElementById('inputType').value;
+            count = document.getElementById('inputCount').value;
+            price = document.getElementById('inputPrice').value;
 
-        allBooks.forEach(element => {
-            if (element.TenSach === bookName) {
-                foundBook = element;
-            }
-        });
+            btnThem.disabled = true;
 
-        console.log(foundBook);
-        if (foundBook) {
-            const count = foundBook.SoLuong;
-            if (count >= parseInt(SoLuongTonToiDaKhiNhap)) {
-                document.getElementById("error-msg").innerHTML = `Sách ${bookName} có hơn ${SoLuongTonToiDaKhiNhap} cuốn trong kho!`;
+            if (bookName === '' || author === '' || type === '' || count === '' || price === '') {
+                document.getElementById("error-msg").innerHTML = "Vui lòng điền hết các trường!";
                 return;
             }
+            let foundBook;
+
+            allBooks.forEach(element => {
+                if (element.TenSach === bookName) {
+                    foundBook = element;
+                }
+            });
+            console.log(foundBook);
+            if (foundBook) {
+                const count = foundBook.SoLuong;
+                if (count >= parseInt(SoLuongTonToiDaKhiNhap)) {
+                    document.getElementById("error-msg").innerHTML = `Sách ${bookName} có hơn ${SoLuongTonToiDaKhiNhap} cuốn trong kho!`;
+                    return;
+                }
+            }
+
+            if (parseInt(count) < parseInt(soluongNhapItNhat)) {
+                document.getElementById("error-msg").innerHTML = `Số lượng nhập ít nhất là ${soluongNhapItNhat}`;
+                return;
+            }
+            btnThem.disabled = false;
+        }
+        function addBookRow() {
+        
+            checkInputFields();
+
+            // Get the tbody element
+            let tbody = document.getElementById('bookTableBody');
+
+            // Create a new row
+            let newRow = document.createElement('tr');
+
+            // Set the row's id to a unique value (you can use a counter or generate a unique ID)
+            let newRowId = (tbody.children.length + 1);
+            newRow.id = newRowId;
+
+            // Add cells to the new row
+            newRow.innerHTML = `
+            <td class="bookname">${bookName}</td>
+            <td class="author">${author}</td>
+            <td class="type">${type}</td>
+            <td class="count">${count}</td>
+            <td class="price">${price}</td>
+            `;
+
+            // Append the new row to the tbody
+            tbody.appendChild(newRow);
+
+            // Clear the input fields in the modal
+            document.getElementById('inputBookName').value = '';
+            document.getElementById('inputAuthor').value = '';
+            document.getElementById('inputType').value = '';
+            document.getElementById('inputCount').value = '';
+            document.getElementById('inputPrice').value = '';
         }
 
-        if (parseInt(count) < parseInt(soluongNhapItNhat)) {
-            document.getElementById("error-msg").innerHTML = `Số lượng nhập ít nhất là ${soluongNhapItNhat}`;
-            return;
-        }
-
-        // Get the tbody element
-        let tbody = document.getElementById('bookTableBody');
-
-        // Create a new row
-        let newRow = document.createElement('tr');
-
-        // Set the row's id to a unique value (you can use a counter or generate a unique ID)
-        let newRowId = (tbody.children.length + 1);
-        newRow.id = newRowId;
-
-        // Add cells to the new row
-        newRow.innerHTML = `
-        <td class="bookname">${bookName}</td>
-        <td class="author">${author}</td>
-        <td class="type">${type}</td>
-        <td class="count">${count}</td>
-        <td class="price">${price}</td>
-        `;
-
-        // Append the new row to the tbody
-        tbody.appendChild(newRow);
-
-        // Clear the input fields in the modal
-        document.getElementById('inputBookName').value = '';
-        document.getElementById('inputAuthor').value = '';
-        document.getElementById('inputType').value = '';
-        document.getElementById('inputCount').value = '';
-        document.getElementById('inputPrice').value = '';
-    }
+        
+    })
 
     function saveBoooks() {
         let date = document.getElementById('inputDataImport').value;

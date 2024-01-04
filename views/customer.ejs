@@ -66,6 +66,7 @@
 </div>
 
 <script>
+    let checkQD = parseInt("<%- checkQD %>");
     document.addEventListener("DOMContentLoaded", function () {
         // Lấy danh sách các nút "Thu"
         var thuButtons = document.querySelectorAll(".btnCash");
@@ -104,15 +105,20 @@
                     var errorElement = document.getElementById("error-msg");
 
                     // Kiểm tra điều kiện và hiển thị thông báo lỗi nếu cần
-                    if (soTienThu > no) {
-                        errorElement.innerText = "Số tiền thu không được vượt quá số tiền nợ!";
-                        hasError = true;
-                        document.getElementById("lapPhieuThuBtn").disabled = true; // Vô hiệu hóa nút "Lập"
+                    if (checkQD === 1) {
+                        if (soTienThu > no) {
+                            errorElement.innerText = "Số tiền thu không được vượt quá số tiền nợ!";
+                            hasError = true;
+                            document.getElementById("lapPhieuThuBtn").disabled = true; // Vô hiệu hóa nút "Lập"
+                        } else {
+                            errorElement.innerText = ""; // Xóa thông báo lỗi nếu số tiền hợp lệ
+                            hasError = false;
+                            document.getElementById("lapPhieuThuBtn").disabled = false; // Kích hoạt nút "Lập"
+                        }
                     } else {
-                        errorElement.innerText = ""; // Xóa thông báo lỗi nếu số tiền hợp lệ
-                        hasError = false;
-                        document.getElementById("lapPhieuThuBtn").disabled = false; // Kích hoạt nút "Lập"
+                        document.getElementById("lapPhieuThuBtn").disabled = false;
                     }
+                    
                 });
 
                 let ngayLap;
@@ -141,8 +147,10 @@
                     }
                 });
 
+                const btnLap = document.getElementById("lapPhieuThuBtn");
+
                 // Gắn sự kiện click cho nút "Lập" trong modal
-                document.getElementById("lapPhieuThuBtn").addEventListener("click", function () {
+                btnLap.addEventListener("click", function () {
                     // soTienT
                     // console.log(soTienThu);
 
