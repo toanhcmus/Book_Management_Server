@@ -222,17 +222,20 @@ class reportC {
       allCustomers[i].NoCuoi = allCustomers[i].NoDau + allCustomers[i].PhatSinh;
     }
 
-    console.log(allCustomers);
+        console.log(allCustomers);
         let hasEmpty = true;
+
+        let allValidCustomers = [];
 
         allCustomers.forEach(customer => {
           if (customer.PhatSinh !== 0 || customer.NoCuoi !== 0) {
             hasEmpty = false;
+            allValidCustomers.push(customer);
           }
         })
 
         let data = {
-          customers: allCustomers,
+          customers: allValidCustomers,
           month: month,
           year: year,
         };
