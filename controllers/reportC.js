@@ -217,7 +217,7 @@ class reportC {
     }
 
     console.log(allCustomers);
-        let hasEmpty = true;
+        let hasEmpty = true;  
         let data = {
           customers: allCustomers,
           month: month,
