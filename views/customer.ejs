@@ -25,6 +25,11 @@
                     <td><%= allCustomers[i].Email %></td>
                     <td><%= allCustomers[i].DiaChi %></td>
                     <td><%= allCustomers[i].No %></td>
+                    <% if (allCustomers[i].No === 0) { %>
+                        <td><button type="button" class="btn btn-outline-primary btnCash" disabled><i class="fa-solid fa-sack-dollar"></i></button>
+                    <% } else { %>
+                        <td><button type="button" class="btn btn-outline-primary btnCash"><i class="fa-solid fa-sack-dollar"></i></button>
+                    <% } %>
                     <td><button type="button" class="btn btn-outline-primary btnCash"><i class="fa-solid fa-sack-dollar"></i></button>
                 </tr>
             <% } %>
