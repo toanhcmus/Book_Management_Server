@@ -138,42 +138,39 @@
             }
             btnThem.disabled = false;
         }
-        function addBookRow() {
-        
-            checkInputFields();
-
-            // Get the tbody element
-            let tbody = document.getElementById('bookTableBody');
-
-            // Create a new row
-            let newRow = document.createElement('tr');
-
-            // Set the row's id to a unique value (you can use a counter or generate a unique ID)
-            let newRowId = (tbody.children.length + 1);
-            newRow.id = newRowId;
-
-            // Add cells to the new row
-            newRow.innerHTML = `
-            <td class="bookname">${bookName}</td>
-            <td class="author">${author}</td>
-            <td class="type">${type}</td>
-            <td class="count">${count}</td>
-            <td class="price">${price}</td>
-            `;
-
-            // Append the new row to the tbody
-            tbody.appendChild(newRow);
-
-            // Clear the input fields in the modal
-            document.getElementById('inputBookName').value = '';
-            document.getElementById('inputAuthor').value = '';
-            document.getElementById('inputType').value = '';
-            document.getElementById('inputCount').value = '';
-            document.getElementById('inputPrice').value = '';
-        }
-
-        
     })
+
+    function addBookRow() {
+
+        // Get the tbody element
+        let tbody = document.getElementById('bookTableBody');
+
+        // Create a new row
+        let newRow = document.createElement('tr');
+
+        // Set the row's id to a unique value (you can use a counter or generate a unique ID)
+        let newRowId = (tbody.children.length + 1);
+        newRow.id = newRowId;
+
+        // Add cells to the new row
+        newRow.innerHTML = `
+        <td class="bookname">${bookName}</td>
+        <td class="author">${author}</td>
+        <td class="type">${type}</td>
+        <td class="count">${count}</td>
+        <td class="price">${price}</td>
+        `;
+
+        // Append the new row to the tbody
+        tbody.appendChild(newRow);
+
+        // Clear the input fields in the modal
+        document.getElementById('inputBookName').value = '';
+        document.getElementById('inputAuthor').value = '';
+        document.getElementById('inputType').value = '';
+        document.getElementById('inputCount').value = '';
+        document.getElementById('inputPrice').value = '';
+    }
 
     function saveBoooks() {
         let date = document.getElementById('inputDataImport').value;
