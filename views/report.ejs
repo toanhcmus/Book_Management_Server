@@ -77,7 +77,7 @@
     </section>
 <% } %>
 
-<% if (empty===true && option===2) { %>
+<% if (empty===false && option===2) { %>
     <section style="width: 80%; margin-top: 20px; margin-left: 10%; margin-right: 10%;">
         <p>Báo cáo công nợ tháng <%= allCustomers.month %> năm <%= allCustomers.year %>
         </p>
@@ -118,5 +118,12 @@
         </table>
     </section>
     <% } %>
+
+    <% if (empty === true && option === 2) { %>
+        <section style="width: 80%; margin-top: 20px; margin-left: 10%; margin-right: 10%;">
+            <p style="color: red;">* Không có dữ liệu</p>
+        </section>
+    <% } %>
+    
 
 <%- include('footer') %>

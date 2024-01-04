@@ -224,6 +224,13 @@ class reportC {
 
     console.log(allCustomers);
         let hasEmpty = true;
+
+        allCustomers.forEach(customer => {
+          if (customer.PhatSinh !== 0 || customer.NoCuoi !== 0) {
+            hasEmpty = false;
+          }
+        })
+
         let data = {
           customers: allCustomers,
           month: month,
