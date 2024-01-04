@@ -79,6 +79,8 @@
 <script>
     function addBookRow() {
         let allBooks = <%- JSON.stringify(books) %>;
+        let soluongNhapItNhat = "<%- soLuongNhapItNhat %>";
+        let SoLuongTonToiDaKhiNhap = "<%- SoLuongTonToiDaKhiNhap %>";
         console.log(allBooks);
         // Get input values from the modal
         let bookName = document.getElementById('inputBookName').value;
@@ -106,14 +108,14 @@
         console.log(foundBook);
         if (foundBook) {
             const count = foundBook.SoLuong;
-            if (count > 300) {
-                document.getElementById("error-msg").innerHTML = `Sách ${bookName} có hơn 300 cuốn trong kho!`;
+            if (count >= parseInt(SoLuongTonToiDaKhiNhap)) {
+                document.getElementById("error-msg").innerHTML = `Sách ${bookName} có hơn ${SoLuongTonToiDaKhiNhap} cuốn trong kho!`;
                 return;
             }
         }
 
-        if (parseInt(count) < 150) {
-            document.getElementById("error-msg").innerHTML = `Số lượng nhập ít nhất là 150`;
+        if (parseInt(count) < parseInt(soluongNhapItNhat)) {
+            document.getElementById("error-msg").innerHTML = `Số lượng nhập ít nhất là ${soluongNhapItNhat}`;
             return;
         }
 
@@ -163,7 +165,6 @@
             return;
         }
 
-
         // Loop through each row and extract data
         for (let i = 0; i < rows.length; i++) {
             let cells = rows[i].getElementsByTagName('td');
@@ -177,12 +178,6 @@
             dataArray.push(rowData);
         }
 
-        // Send the array to the server (you can replace this with your actual server endpoint)
-        // console.log('Data to be sent to the server:', dataArray);
-
-        // You can use AJAX, fetch, or any other method to send the data to the server here
-        // let url = '/book/import';
-        // console.log(url);
         fetch('/book/import', {
             method: 'POST',
             headers: {

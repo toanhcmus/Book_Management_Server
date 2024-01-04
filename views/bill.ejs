@@ -7,13 +7,13 @@
                 <h4>Nhập thông tin khách hàng</h4>
                 <div class="col-md-6" id="inputCustomerName">
                     <label for="name" class="form-label" style = "color: black; font-weight: bold;">Tên khách hàng</label>
-                    <input type="text" class="form-control" id="customerName" name="customerName" required oninput="validateForm()">  
+                    <input type="text" class="form-control" id="customerName" name="customerName" required>  
                     <p id="nameError" style="color: red; display: none;">* Tên không hợp lệ</p>                              
                 </div>
                 
                 <div class="col-md-6" id="inputCustomerPhone">
                     <label for="customerPhone" class="form-label" style = "color: black; font-weight: bold;">Số điện thoại</label>
-                    <input type="tel" class="form-control" id="customerPhone" name="customerPhone" oninput="validateForm()">
+                    <input type="tel" class="form-control" id="customerPhone" name="customerPhone" required>
                     <p id =  "phoneError" style="color: red; display: none;">* Số điện thoại không hợp lệ</p>
                 </div>
                 <% if (msg === 3) { %>

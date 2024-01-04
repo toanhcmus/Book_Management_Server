@@ -1,18 +1,24 @@
 const Book = require("../models/book")
+const Rule = require("../models/rules");
 
 class bookC {
     async pageImport(req, res) {
         // let id = req.params.id;
         // const proDetail = await Product.selectProductByID(id);
         const allBooks = await Book.selectAllBooks();
+        const soLuongNhapItNhat = await Rule.getSoLuongNhapItNhat();
+        const SoLuongTonToiDaKhiNhap = await Rule.getSoLuongTonToiDaKhiNhap();
+        console.log(soLuongNhapItNhat);
         try {
-            res.render("importBook", {
+            return res.render("importBook", {
                 session: 1, 
                 userSession: req.session.passport.user,
-                books: allBooks
+                books: allBooks,
+                soLuongNhapItNhat: soLuongNhapItNhat.SoLuongNhapItNhat,
+                SoLuongTonToiDaKhiNhap: SoLuongTonToiDaKhiNhap.SoLuongTonToiDaKhiNhap
             });
         } catch (error) {
-            res.render("500", {error: error.stack});
+            return res.render("500", {error: error.stack});
         }
     }
 
@@ -37,7 +43,7 @@ class bookC {
                     await Book.importBook(dataImport[i]);
                 }
             } catch(err) {
-                res.send({
+                return res.send({
                     msg: 0
                 });
             }
@@ -62,7 +68,7 @@ class bookC {
             await Book.addThongTinNhapSach(obj);
         }
 
-        res.send({
+        return res.send({
             msg: 1
         });
     }
@@ -70,13 +76,13 @@ class bookC {
     async pageSearch(req, res) {
         const allBooks = await Book.selectAllBooks();
         try {
-            res.render("bookSearch", {
+            return res.render("bookSearch", {
                 session: 1, 
                 userSession: req.session.passport.user,
                 books: allBooks
             });
         } catch (error) {
-            res.render("500", {error: error.stack});
+            return res.render("500", {error: error.stack});
         }
     }
 
@@ -85,13 +91,13 @@ class bookC {
         const allBooks = await Book.searchBook(search);
         // console.log(allBooks);
         try {
-            res.render("bookSearch", {
+            return res.render("bookSearch", {
                 session: 1, 
                 userSession: req.session.passport.user,
                 books: allBooks
             });
         } catch (error) {
-            res.render("500", {error: error.stack});
+            return res.render("500", {error: error.stack});
         }
     }
 }

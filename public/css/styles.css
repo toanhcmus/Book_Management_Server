@@ -22,7 +22,8 @@ h3 {
 }
 
 .container-fluid {
-  padding: 2% 10% 0% 10%;
+  padding: 2% 5% 2% 5%;
+  width: 100%;
 }
 
 /* navigation bar */
@@ -38,6 +39,12 @@ h3 {
 
 .nav-item {
   padding: 0 18px;
+  color:#000000;
+}
+
+.nav-item:hover {
+  color:#ffffff;
+  border: #03bc0f;
 }
 
 .nav-link {
@@ -167,4 +174,8 @@ label {
     margin-left: 10%;
     margin-top: 50px;
     margin-right: 10%;
+  }
+
+  #quydinh-table {
+    margin-top: 50px;
   }

@@ -5,7 +5,26 @@ module.exports = {
         const rs = await db.any('SELECT * FROM public."QuyDinh"');
         return rs;
     },
-
+    getSoLuongNhapItNhat: async() => {
+        const rs = await db.any('SELECT "SoLuongNhapItNhat" FROM public."QuyDinh"');
+        return rs[0];
+    },
+    getSoLuongTonToiDaKhiNhap: async() => {
+        const rs = await db.any('select "SoLuongTonToiDaKhiNhap" from "QuyDinh"');
+        return rs[0];
+    },
+    getNoToiDa: async() => {
+        const rs = await db.any('select "NoToiDa" from "QuyDinh"');
+        return rs;
+    },
+    getTonSauToiThieu: async() => {
+        const rs = await db.any('select "TonSauToiThieu" from "QuyDinh"');
+        return rs;
+    },
+    getApDungQuyDinh4: async() => {
+        const rs = await db.any('select "ApDungQuyDinh4" from "QuyDinh"');
+        return rs;
+    },
     updateRules: async(val1, val2, val3, val4, val5) => {
         const updateQuery1 = 'UPDATE public."QuyDinh" SET "SoLuongNhapItNhat" = $1';
         await db.none(updateQuery1, val1);

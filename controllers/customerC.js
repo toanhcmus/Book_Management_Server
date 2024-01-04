@@ -52,11 +52,11 @@ class customerC {
             console.log("da insert vao phieu thu tien");
             
         } catch (error) {
-            res.send({
+            return res.send({
                 msg: 0
             })
         }
-        res.send({
+        return res.send({
             msg: 1
         })
     }

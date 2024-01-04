@@ -19,8 +19,7 @@ module.exports = {
   },
   insertCustomer: async (obj) => {
     await db.one(
-      `INSERT 
-                        INTO public."KhachHang"("TenKH", "DiaChi", "Email", "SDT", "No") VALUES ($1, $2, $3, $4, $5) RETURNING *`,
+      `INSERT INTO public."KhachHang"("TenKH", "DiaChi", "Email", "SDT", "No") VALUES ($1, $2, $3, $4, $5) RETURNING *`,
       [
         obj.customerName,
         obj.customerAddress,
