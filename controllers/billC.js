@@ -64,6 +64,7 @@ class billC {
             const customerID = data.customer.customerID;
             const books = data.books;
             const date = data.date;
+            console.log("date: ", date);
             const total = data.total;   // ->
             let ghino = 0;
             let customer = data.customer;
