@@ -127,14 +127,17 @@ class reportC {
 
         // allBooks = {...allBooks, month: month, year: year};
 
+        let allValidBooks = [];
+
         allBooks.forEach(book => {
-          if (book.TonDau !== 0 || book.TonCuoi !== 0) {
+          if (book.TonDau !== 0 || book.TonCuoi !== 0 || book.PhatSinh !== 0) {
             hasEmpty = false;
+            allValidBooks.push(book);
           }
         })
 
         let data = {
-          books: allBooks,
+          books: allValidBooks,
           month: month,
           year: year,
         };
