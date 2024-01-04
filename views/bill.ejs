@@ -7,13 +7,13 @@
                 <h4>Nhập thông tin khách hàng</h4>
                 <div class="col-md-6" id="inputCustomerName">
                     <label for="name" class="form-label" style = "color: black; font-weight: bold;">Tên khách hàng</label>
-                    <input type="text" class="form-control" id="customerName" name="customerName" required>  
+                    <input type="text" class="form-control" id="customerName" name="customerName" required oninput="validateForm()">  
                     <p id="nameError" style="color: red; display: none;">* Tên không hợp lệ</p>                              
                 </div>
                 
                 <div class="col-md-6" id="inputCustomerPhone">
                     <label for="customerPhone" class="form-label" style = "color: black; font-weight: bold;">Số điện thoại</label>
-                    <input type="tel" class="form-control" id="customerPhone" name="customerPhone" required>
+                    <input type="tel" class="form-control" id="customerPhone" name="customerPhone" oninput="validateForm()">
                     <p id =  "phoneError" style="color: red; display: none;">* Số điện thoại không hợp lệ</p>
                 </div>
                 <% if (msg === 3) { %>
@@ -24,7 +24,7 @@
                 <% } %>
                 
                 <div class="col-12" style = "margin-bottom: 10px;">
-                    <button class="btn btn-dark" type="submit" id="submitBtn">Kiểm tra</button>
+                    <button type="submit" class="btn btn-dark">Kiểm tra</button>
                     <span>&nbsp;</span>
                 </div>
                 
@@ -142,63 +142,51 @@
 
 <script>
 
-    // document.addEventListener("DOMContentLoaded", function () {
-        
+    document.addEventListener("DOMContentLoaded", function () {
+        var form = document.getElementById("form-checkCustomer");
+        if (form) {
+            form.addEventListener("submit", function (event) {
+                event.preventDefault();
 
-        // form.addEventListener("submit", function (event) {
-        //     event.preventDefault();
+                // check condition before submit
+                if (validateForm()) {
+                    form.submit();
+                } 
+            });
+        } else {
+            console.error("no form");
+        }
+     
+    });    
 
-        //     // check condition before submit
-        //     if (validateForm()) {
-        //         form.submit();
-        //     } 
-        // });
+    function validateForm() {
+        var customerName = document.getElementById("customerName").value;
+        var customerPhone = document.getElementById("customerPhone").value;
 
-        function check() {
-            var form = document.getElementById("form-checkCustomer");
-            console.log(form);
-            if (validateForm()) {
-                form.submit();
-            } 
+        // check input conditions
+        var nameError = document.getElementById("nameError");
+        var phoneError = document.getElementById("phoneError");
+
+        // reset error messages
+        nameError.style.display = "none";
+        phoneError.style.display = "none";
+
+        // check customer name
+        var nameRegex = /^[a-zA-Z\sÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂẤẮẦẰẾỀỂỄỒỐỖỔỜỚỠỞỨỮỬĐđàáâãèéêìíòóôõùúăấắầằếềểễồốỗổờớỡởứữử\s]+$/;
+        if (!nameRegex.test(customerName)) {
+            nameError.style.display = "block";
+            return false;
         }
 
-        function validateForm() {
-            var customerName = document.getElementById("customerName").value;
-            var customerPhone = document.getElementById("customerPhone").value;
-
-            // check input conditions
-            var nameError = document.getElementById("nameError");
-            var phoneError = document.getElementById("phoneError");
-            var submitBtn = document.getElementById('submitBtn');
-
-            // reset error messages
-            nameError.style.display = "none";
-            phoneError.style.display = "none";
-            submitBtn.disabled = "false";
-            var check = true;
-
-            // check customer name
-            var nameRegex = /^[a-zA-Z\sÀÁÂÃÈÉÊÌÍÒÓÔÕÙÚĂẤẮẦẰẾỀỂỄỒỐỖỔỜỚỠỞỨỮỬĐđàáâãèéêìíòóôõùúăấắầằếềểễồốỗổờớỡởứữử\s]+$/;
-            if (!nameRegex.test(customerName)) {
-                nameError.style.display = "block";
-                submitBtn.disabled = "true";
-                // return false;
-                check = fasle;
-            }
-
-            // check phone number
-            var phoneRegex = /^(?:\+84|0)(?:\d{9}|\d{10})$/;
-            if (!phoneRegex.test(customerPhone)) {
-                phoneError.style.display = "block";
-                submitBtn.disabled = "true";
-                check = false;
-            }
-
-            // return true;
+        // check phone number
+        var phoneRegex = /^(?:\+84|0)(?:\d{9}|\d{10})$/;
+        if (!phoneRegex.test(customerPhone)) {
+            phoneError.style.display = "block";
+            return false;
         }
-    // });    
 
-
+        return true;
+    }
     
 
     let totalAmount = 0;
