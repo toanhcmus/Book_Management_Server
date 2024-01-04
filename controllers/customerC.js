@@ -4,11 +4,11 @@ class customerC {
     async pageCustomer(req, res) {
         try {
             const allCustomers = await Customer.selectAllCustomers();
-            res.render("customer", {
+            return res.render("customer", {
                 allCustomers: allCustomers
             });
         } catch (error) {
-            res.render("500", {error: error.stack});
+            return res.render("500", {error: error.stack});
         }
     }
     async checkCustomer(req, res) {
@@ -17,26 +17,25 @@ class customerC {
             const phone = req.body.customerPhone;
             console.log(name, phone);
             res.redirect(`/bill/name=${name}&phone=${phone}`);
-            const customer = {
-                name: name,
-                phone: phone
-            }
-            if (rs.length > 0){
-                console.log(1);
-                res.render("bill", {
-                    checkCustomer: 1,
-                    customer: rs[0]
-                });
-            } else {
-                console.log(0);
-                res.render("bill", {
-                    checkCustomer: 0,
-                    customer: customer 
-                });
-            }
-            
+            // const customer = {
+            //     name: name,
+            //     phone: phone
+            // }
+            // if (rs.length > 0){
+            //     console.log(1);
+            //     return res.render("bill", {
+            //         checkCustomer: 1,
+            //         customer: rs[0]
+            //     });
+            // } else {
+            //     console.log(0);
+            //     return res.render("bill", {
+            //         checkCustomer: 0,
+            //         customer: customer 
+            //     });
+            // }
         } catch (error) {
-            
+            return res.render("500", {error: error.stack});
         }
     }
     async debtcash(req, res) {

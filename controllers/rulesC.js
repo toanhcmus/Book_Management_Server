@@ -4,9 +4,9 @@ class rulesC {
     async pageRules(req, res) {
         try {
             const rules = await Rules.getRules();
-            res.render("rules", {rules: rules});
+            return res.render("rules", {rules: rules});
         } catch (error) {
-            res.render("500", {error: error.stack});
+            return res.render("500", {error: error.stack});
         }
     }
 
@@ -22,13 +22,11 @@ class rulesC {
             await Rules.updateRules(val1, val2, val3, val4, val5);
             
         } catch (error) {
-            res.send({
+            return res.send({
                 msg: 0
             });
-
-            return;
         }
-        res.send({
+        return res.send({
             msg: 1
         })
     }

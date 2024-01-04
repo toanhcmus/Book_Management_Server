@@ -15,15 +15,15 @@ module.exports = {
     },
     getNoToiDa: async() => {
         const rs = await db.any('select "NoToiDa" from "QuyDinh"');
-        return rs;
+        return rs[0];
     },
     getTonSauToiThieu: async() => {
         const rs = await db.any('select "TonSauToiThieu" from "QuyDinh"');
-        return rs;
+        return rs[0];
     },
     getApDungQuyDinh4: async() => {
         const rs = await db.any('select "ApDungQuyDinh4" from "QuyDinh"');
-        return rs;
+        return rs[0];
     },
     updateRules: async(val1, val2, val3, val4, val5) => {
         const updateQuery1 = 'UPDATE public."QuyDinh" SET "SoLuongNhapItNhat" = $1';

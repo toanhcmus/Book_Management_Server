@@ -1,7 +1,7 @@
 const Bill = require("../models/bill");
 const Customer = require("../models/customer");
 const Book = require("../models/book");
-
+const Rule = require("../models/rules");
 
 class billC {
     async pageCreate(req, res) {
@@ -21,16 +21,16 @@ class billC {
         try {
             let customerName = req.params.name;
             let customerPhone = req.params.phone;
-            // console.log(customerName, customerPhone);
-            // console.log("here")
             const rs = await Customer.selectCustomer(customerName, customerPhone);
             const allBooks = await Book.selectAllBooks();
+            const noToiDa = await Rule.getNoToiDa();
+            // console.log(noToiDa);
             const customer = {
                 name: customerName,
                 phone: customerPhone
             }
             if (rs.length > 0){
-                if (rs[0].No > 20000) {
+                if (rs[0].No > noToiDa.NoToiDa) {
                     return res.render("bill", {
                         checkCustomer: 2,
                         customer: {},
@@ -72,17 +72,15 @@ class billC {
 
             for (let i = 0; i < books.length; i++) {
                 const foundBook = await Book.selectBookByID(books[i].bookId);
-                console.log("book: ", books[i]);
-                console.log(foundBook);
                 let soLuongSau = foundBook[0].SoLuong - books[i].quantity;
-                console.log(soLuongSau);
-                if (soLuongSau < 20) {
-                    console.log(books[i].quantity);
-                    console.log(foundBook[0].SoLuong);
+                const tonSauBan = await Rule.getTonSauToiThieu();
+                console.log("tonsauban: ", tonSauBan.TonSauToiThieu);
+                if (soLuongSau < tonSauBan.TonSauToiThieu) {
+                    // console.log(books[i].quantity);
+                    // console.log(foundBook[0].SoLuong);
                     return res.send({
                         msg: 0
                     });
-                    return;
                 }
             }
             
@@ -125,7 +123,6 @@ class billC {
             return res.send({
                 msg: 0
             });
-            return;
         }
     }
     async debt(req, res) {
@@ -141,13 +138,15 @@ class billC {
             // console.log(customerID);
             for (let i = 0; i < books.length; i++) {
                 const foundBook = await Book.selectBookByID(books[i].bookId);
-                console.log("book: ", books[i]);
-                console.log(foundBook);
+                // console.log("book: ", books[i]);
+                // console.log(foundBook);
                 let soLuongSau = foundBook[0].SoLuong - books[i].quantity;
-                console.log(soLuongSau);
-                if (soLuongSau < 20) {
-                    console.log(books[i].quantity);
-                    console.log(foundBook[0].SoLuong);
+                // console.log(soLuongSau);
+                const tonSauBan = await Rule.getTonSauToiThieu();
+                console.log("tonsauban: ", tonSauBan.TonSauToiThieu);
+                if (soLuongSau < tonSauBan.TonSauToiThieu) {
+                    // console.log(books[i].quantity);
+                    // console.log(foundBook[0].SoLuong);
                     res.send({
                         msg: 0
                     });
@@ -196,7 +195,6 @@ class billC {
             return res.send({
                 msg: 0
             });
-            return;
         }
     }
 }

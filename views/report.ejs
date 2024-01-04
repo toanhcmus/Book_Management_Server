@@ -42,7 +42,7 @@
     </form>
 </section>
 
-<% if (empty === true && option === 1) { %>
+<% if (empty === false && option === 1) { %>
     <section style="width: 80%; margin-top: 20px; margin-left: 10%; margin-right: 10%;">
         <p>Báo cáo tồn tháng <%= allBooks.month %> năm <%= allBooks.year %></p>
         <table class="table table-striped" id="dataTable">
@@ -68,6 +68,12 @@
                   <% }}) %>
               </tbody>
         </table>
+    </section>
+<% } %>
+
+<% if (empty === true && option === 1) { %>
+    <section style="width: 80%; margin-top: 20px; margin-left: 10%; margin-right: 10%;">
+        <p style="color: red;">* Không có dữ liệu</p>
     </section>
 <% } %>
 

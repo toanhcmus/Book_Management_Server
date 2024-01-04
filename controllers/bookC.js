@@ -8,7 +8,7 @@ class bookC {
         const allBooks = await Book.selectAllBooks();
         const soLuongNhapItNhat = await Rule.getSoLuongNhapItNhat();
         const SoLuongTonToiDaKhiNhap = await Rule.getSoLuongTonToiDaKhiNhap();
-        console.log(soLuongNhapItNhat);
+        // console.log(soLuongNhapItNhat);
         try {
             return res.render("importBook", {
                 session: 1, 

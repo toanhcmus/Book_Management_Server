@@ -6,13 +6,13 @@ const Customer = require("../models/customer");
 class reportC {
   async pageReport(req, res) {
     try {
-      res.render("report", {
+      return res.render("report", {
         empty: false,
         allBooks: [],
         option: 0,
       });
     } catch (error) {
-      res.render("500", { error: error.stack });
+      return res.render("500", { error: error.stack });
     }
   }
   async report(req, res) {
@@ -127,13 +127,19 @@ class reportC {
 
         // allBooks = {...allBooks, month: month, year: year};
 
+        allBooks.forEach(book => {
+          if (book.TonDau !== 0 || book.TonCuoi !== 0) {
+            hasEmpty = false;
+          }
+        })
+
         let data = {
           books: allBooks,
           month: month,
           year: year,
         };
 
-        res.render("report", {
+        return res.render("report", {
           empty: hasEmpty,
           allBooks: data,
           option: 1,
@@ -223,14 +229,14 @@ class reportC {
           month: month,
           year: year,
         };
-        res.render("report", {
+        return res.render("report", {
           empty: hasEmpty,
           allCustomers: data,
           option: 2,
         });
       }
     } catch (error) {
-      res.render("500", { error: error.stack });
+      return res.render("500", { error: error.stack });
     }
   }
 }
