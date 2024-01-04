@@ -228,9 +228,9 @@ class reportC {
         let allValidCustomers = [];
 
         allCustomers.forEach(customer => {
-          if (customer.PhatSinh !== 0 || customer.NoCuoi !== 0) {
+          if (customer.PhatSinh !== 0 || customer.NoCuoi !== 0 || customer.NoDau !== 0) {
             hasEmpty = false;
-            allValidCustomers.push(customer);
+            allValidCustomers.push(customer);         
           }
         })
 
