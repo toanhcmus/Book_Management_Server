@@ -82,11 +82,11 @@ class reportC {
             donNhapSach[i].MaDonNS
           );
           for (let j = 0; j < dsTTDonNhapSach.length; j++) {
-            // console.log("TTNS:", dsTTDonNhapSach[j].MaSach);
+            console.log("TTNS:", dsTTDonNhapSach[j].MaSach);
             let index = allBooks.findIndex((book) => {
               return book.MaSach === dsTTDonNhapSach[j].MaSach;
             });
-            // console.log("index = ", index);
+            console.log("index = ", index);
             allBooks[index].Nhap += dsTTDonNhapSach[j].SoLuong;
           }
         }
@@ -105,11 +105,11 @@ class reportC {
           const hdTT = await HoaDon.selectTTHoaDon(hoadon[i].MaHoaDon);
           console.log("HdTT", hdTT);
           for (let j = 0; j < hdTT.length; j++) {
-            // console.log("TTNS:", dsTTDonNhapSach[j].MaSach);
+            console.log("TTNS:", dsTTDonNhapSach[j].MaSach);
             let index = allBooks.findIndex((book) => {
               return book.MaSach === hdTT[j].MaSach;
             });
-            // console.log("index = ", index);
+            console.log("index = ", index);
             allBooks[index].Ban += hdTT[j].SoLuong;
           }
         }
@@ -185,9 +185,9 @@ class reportC {
       });
         allCustomers[index].NoDau += HDThuNoTuTruoc[i].ThanhTien;
 
-        // console.log("no tu truoc")
-        // console.log(allCustomers[index].NoDau, allCustomers);
-        // console.log("no tu truoc");
+        console.log("no tu truoc")
+        console.log(allCustomers[index].NoDau, allCustomers);
+        console.log("no tu truoc");
 
     }
 
@@ -195,9 +195,9 @@ class reportC {
       let index = allCustomers.findIndex((customer) => {
         return customer.MaKH === PTN[i].KhachHang;
       });
-        console.log("so tien tra trong thang nay");
+        // console.log("so tien tra trong thang nay");
         allCustomers[index].Tra += PTN[i].SoTienThu;
-        console.log("so tien tra trong thang nay");
+        // console.log("so tien tra trong thang nay");
     }
 
 
@@ -215,9 +215,9 @@ class reportC {
       let index = allCustomers.findIndex((customer) => {
         return customer.MaKH === HDThuNo[i].KhachHang;
       });
-        console.log("So tien no trong thang nay")
+        // console.log("So tien no trong thang nay")
         allCustomers[index].No += HDThuNo[i].ThanhTien;
-        console.log("So tien no trong thang nay");
+        // console.log("So tien no trong thang nay");
     }
 
     for (let i = 0; i < allCustomers.length; i++) {
