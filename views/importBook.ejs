@@ -116,6 +116,17 @@
                 document.getElementById("error-msg").innerHTML = "Vui lòng điền hết các trường!";
                 return;
             }
+
+            if (parseInt(count) < 0 ) {
+                document.getElementById("error-msg").innerHTML = "Vui lòng điền số lượng > 0!";
+                return;
+            }
+
+            if (parseInt(price) < 0 ) {
+                document.getElementById("error-msg").innerHTML = "Vui lòng điền giá > 0!";
+                return;
+            }
+
             let foundBook;
 
             allBooks.forEach(element => {
@@ -227,6 +238,16 @@
         document.getElementById('inputDataImport').value = '';
         tableBody.innerHTML = '';
     }
+
+    document.getElementById("exampleModal").addEventListener("hide.bs.modal", function () {
+        document.getElementById('inputBookName').value = "";
+        document.getElementById('inputAuthor').value = "";
+        document.getElementById('inputType').value = "";
+        document.getElementById('inputCount').value = "";
+        document.getElementById('inputPrice').value = "";
+        document.getElementById("error-msg").innerHTML = '';
+        btnThem.disabled = false;
+    });
 
 </script>
 

@@ -60,6 +60,7 @@
                     </label>
                     <input type="date" class="form-control" id="customerDateDebit" name="customerDateDebit">
                 </div>
+                <p id="date-error-msg" style="color: red; font-weight: bold;"></p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-outline-primary" data-bs-dismiss="modal" id="lapPhieuThuBtn" disabled>Lập</button>
@@ -106,7 +107,16 @@
                 document.getElementById("inputCash").addEventListener("input", function () {
                     // Lấy số tiền từ input
                     soTienThu = parseInt(this.value);
+                    console.log(soTienThu);
                     var errorElement = document.getElementById("error-msg");
+
+                    if (soTienThu <= 0) {
+                        console.log("be hon 0!");
+                        errorElement.innerText = "Số tiền thu phải lớn hơn 0!";
+                        hasError = true;
+                        document.getElementById("lapPhieuThuBtn").disabled = true;
+                        return;
+                    }
 
                     // Kiểm tra điều kiện và hiển thị thông báo lỗi nếu cần
                     if (checkQD === 1) {
@@ -114,10 +124,12 @@
                             errorElement.innerText = "Số tiền thu không được vượt quá số tiền nợ!";
                             hasError = true;
                             document.getElementById("lapPhieuThuBtn").disabled = true; // Vô hiệu hóa nút "Lập"
+                            return;
                         } else {
                             errorElement.innerText = ""; // Xóa thông báo lỗi nếu số tiền hợp lệ
                             hasError = false;
                             document.getElementById("lapPhieuThuBtn").disabled = false; // Kích hoạt nút "Lập"
+                            return;
                         }
                     } else {
                         document.getElementById("lapPhieuThuBtn").disabled = false;
@@ -136,18 +148,28 @@
                     // Thực hiện các kiểm tra cần thiết và hiển thị thông báo lỗi nếu cần
                     // (ví dụ: kiểm tra ngày có hợp lệ hay không)
 
+                    errorElement = document.getElementById("date-error-msg");
+
+                    if (ngayLap === "") {
+                        errorElement.innerText = "* Vui lòng chọn ngày lập!";
+                        document.getElementById("lapPhieuThuBtn").disabled = true; // Vô hiệu hóa nút "Lập"
+                        return;
+                    }
+
                     // Ví dụ: nếu ngày lớn hơn ngày hiện tại, hiển thị thông báo lỗi
                     var currentDate = new Date();
                     var selectedDate = new Date(ngayLap);
 
-                    errorElement = document.getElementById("date-error-msg");
+                    
 
                     if (selectedDate > currentDate) {
                         errorElement.innerText = "Ngày lập không được lớn hơn ngày hiện tại!";
                         document.getElementById("lapPhieuThuBtn").disabled = true; // Vô hiệu hóa nút "Lập"
+                        return;
                     } else {
                         errorElement.innerText = ""; // Xóa thông báo lỗi nếu ngày hợp lệ
                         document.getElementById("lapPhieuThuBtn").disabled = false; // Kích hoạt nút "Lập"
+                        return;
                     }
                 });
 
