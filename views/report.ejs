@@ -1,10 +1,10 @@
 <%- include('header') %>
 
-<section style="margin-top: 50px; text-align: center;">
-    <h1 class="title">LẬP BÁO CÁO</h1>
-</section>
+    <section style="margin-top: 50px; text-align: center;">
+        <h1 class="title">LẬP BÁO CÁO</h1>
+    </section>
 
-<section id="form-report">
+    <!-- <section id="form-report">
     <form action="/report" method="post">
         <select class="form-select" aria-label="Default select example" name="optionReport">
             <option selected value="1">Báo cáo tồn</option>
@@ -40,90 +40,144 @@
             <span>&nbsp;</span>
         </div>
     </form>
-</section>
+</section> -->
 
-<% if (empty === false && option === 1) { %>
-    <section style="width: 80%; margin-top: 20px; margin-left: 10%; margin-right: 10%;">
-        <p>Báo cáo tồn tháng <%= allBooks.month %> năm <%= allBooks.year %></p>
-        <table class="table table-striped" id="dataTable">
-            <thead class="table-dark">
-                <tr>
-                  <th scope="col">Tên sách</th>
-                  <th scope="col">Tồn đầu</th>
-                  <th scope="col">Tồn cuối</th>
-                  <th scope="col">Phát sinh</th>
-                </tr>
-              </thead>
-              <tbody>
-                  <% allBooks.books.forEach(book => { %>
-                    <% if (book.TonDau === 0 && book.TonCuoi === 0) { %>
-                     
-                    <% } else{ %>
-                      <tr>
-                          <td><%= book.TenSach %></td>
-                          <td><%= book.TonDau %></td>
-                          <td><%= book.TonCuoi %></td>
-                          <td><%= book.PhatSinh %></td>
-                      </tr>
-                  <% }}) %>
-              </tbody>
-        </table>
+    <section id="form-report">
+        <form action="/report" method="post" class="row g-3">
+            <div class="col-md-4">
+                <label for="optionReport" class="form-label">Chọn báo cáo</label>
+                <select class="form-select" id="optionReport" name="optionReport" aria-label="Chọn báo cáo">
+                    <option selected value="1">Báo cáo tồn</option>
+                    <option value="2">Báo cáo công nợ</option>
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label for="month" class="form-label">Tháng</label>
+                <select class="form-select" id="month" name="month" aria-label="Chọn tháng">
+                    <option value="1">1</option>
+                    <option value="2">2</option>
+                    <option value="3">3</option>
+                    <option value="4">4</option>
+                    <option value="5">5</option>
+                    <option value="6">6</option>
+                    <option value="7">7</option>
+                    <option value="8">8</option>
+                    <option value="9">9</option>
+                    <option value="10">10</option>
+                    <option value="11">11</option>
+                    <option value="12">12</option>
+                </select>
+            </div>
+
+            <div class="col-md-4">
+                <label for="year" class="form-label">Năm</label>
+                <select class="form-select" id="year" name="year" aria-label="Chọn năm">
+                    <option value="2020">2020</option>
+                    <option value="2021">2021</option>
+                    <option value="2022">2022</option>
+                    <option value="2023">2023</option>
+                    <option value="2024">2024</option>
+                </select>
+            </div>
+
+            <div class="col-12 d-flex align-items-center justify-content-center" style="margin-bottom: 10px;">
+                <button type="submit" class="btn btn-dark">Kiểm tra</button>
+            </div>
+        </form>
     </section>
-<% } %>
 
-<% if (empty === true && option === 1) { %>
-    <section style="width: 80%; margin-top: 20px; margin-left: 10%; margin-right: 10%;">
-        <p style="color: red;">* Không có dữ liệu</p>
-    </section>
-<% } %>
-
-<% if (empty===false && option===2) { %>
-    <section style="width: 80%; margin-top: 20px; margin-left: 10%; margin-right: 10%;">
-        <p>Báo cáo công nợ tháng <%= allCustomers.month %> năm <%= allCustomers.year %>
-        </p>
-        <table class="table table-striped" id="dataTable">
-            <thead class="table-dark">
-                <tr>
-                    <th scope="col">Khách hàng</th>
-                    <th scope="col">Số điện thoại</th>
-                    <th scope="col">Nợ đầu</th>
-                    <th scope="col">Phát sinh</th>
-                    <th scope="col">Nợ cuối</th>
-                </tr>
-            </thead>
-            <tbody>
-                <% allCustomers.customers.forEach(customer=> { %>
-                    <% if (customer.TonDau===0 && customer.TonCuoi===0) { %>
-
-                        <% } else{ %>
-                            <tr>
-                                <td>
-                                    <%= customer.TenKH %>
-                                </td>
-                                <td>
-                                    <%= customer.SDT %>
-                                </td>
-                                <td>
-                                    <%= customer.NoDau %>
-                                </td>
-                                <td>
-                                    <%= customer.PhatSinh %>
-                                </td>
-                                <td>
-                                    <%= customer.NoCuoi %>
-                                </td>
-                            </tr>
-                            <% }}) %>
-            </tbody>
-        </table>
-    </section>
-    <% } %>
-
-    <% if (empty === true && option === 2) { %>
+    <% if (empty===false && option===1) { %>
         <section style="width: 80%; margin-top: 20px; margin-left: 10%; margin-right: 10%;">
-            <p style="color: red;">* Không có dữ liệu</p>
-        </section>
-    <% } %>
-    
+            <p>Báo cáo tồn tháng <%= allBooks.month %> năm <%= allBooks.year %>
+            </p>
+            <table class="table table-striped" id="dataTable">
+                <thead class="table-dark">
+                    <tr>
+                        <th scope="col">Tên sách</th>
+                        <th scope="col">Tồn đầu</th>
+                        <th scope="col">Tồn cuối</th>
+                        <th scope="col">Phát sinh</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    <% allBooks.books.forEach(book=> { %>
+                        <% if (book.TonDau===0 && book.TonCuoi===0) { %>
 
-<%- include('footer') %>
+                            <% } else{ %>
+                                <tr>
+                                    <td>
+                                        <%= book.TenSach %>
+                                    </td>
+                                    <td>
+                                        <%= book.TonDau %>
+                                    </td>
+                                    <td>
+                                        <%= book.TonCuoi %>
+                                    </td>
+                                    <td>
+                                        <%= book.PhatSinh %>
+                                    </td>
+                                </tr>
+                                <% }}) %>
+                </tbody>
+            </table>
+        </section>
+        <% } %>
+
+            <% if (empty===true && option===1) { %>
+                <section style="width: 80%; margin-top: 20px; margin-left: 10%; margin-right: 10%;">
+                    <p style="color: red;">* Không có dữ liệu</p>
+                </section>
+                <% } %>
+
+                    <% if (empty===false && option===2) { %>
+                        <section style="width: 80%; margin-top: 20px; margin-left: 10%; margin-right: 10%;">
+                            <p>Báo cáo công nợ tháng <%= allCustomers.month %> năm <%= allCustomers.year %>
+                            </p>
+                            <table class="table table-striped" id="dataTable">
+                                <thead class="table-dark">
+                                    <tr>
+                                        <th scope="col">Khách hàng</th>
+                                        <th scope="col">Số điện thoại</th>
+                                        <th scope="col">Nợ đầu</th>
+                                        <th scope="col">Phát sinh</th>
+                                        <th scope="col">Nợ cuối</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <% allCustomers.customers.forEach(customer=> { %>
+                                        <% if (customer.TonDau===0 && customer.TonCuoi===0) { %>
+
+                                            <% } else{ %>
+                                                <tr>
+                                                    <td>
+                                                        <%= customer.TenKH %>
+                                                    </td>
+                                                    <td>
+                                                        <%= customer.SDT %>
+                                                    </td>
+                                                    <td>
+                                                        <%= customer.NoDau %>
+                                                    </td>
+                                                    <td>
+                                                        <%= customer.PhatSinh %>
+                                                    </td>
+                                                    <td>
+                                                        <%= customer.NoCuoi %>
+                                                    </td>
+                                                </tr>
+                                                <% }}) %>
+                                </tbody>
+                            </table>
+                        </section>
+                        <% } %>
+
+                            <% if (empty===true && option===2) { %>
+                                <section style="width: 80%; margin-top: 20px; margin-left: 10%; margin-right: 10%;">
+                                    <p style="color: red;">* Không có dữ liệu</p>
+                                </section>
+                                <% } %>
+
+
+                                    <%- include('footer') %>
